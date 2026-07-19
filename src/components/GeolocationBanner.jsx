@@ -4,7 +4,7 @@ export default function GeolocationBanner({ permissionState, error, onRequest })
   return (
     <div className="geolocation-banner">
       {permissionState === 'denied' ? (
-        <span>Location denied — enable it in your browser's site settings to see your position.</span>
+        <span>Location denied — enable it in your browser&apos;s site settings to see your position.</span>
       ) : (
         <button onClick={onRequest}>Show my location</button>
       )}

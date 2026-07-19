@@ -2,28 +2,31 @@ import { useEffect, useState } from 'react'
 import { keyFor, readCache, writeCache } from '../lib/weatherCache.js'
 
 export function useWeather(startPoint) {
-  const [data, setData] = useState(null)
+  const lat = startPoint?.lat
+  const lon = startPoint?.lon
+  const key = lat != null && lon != null ? keyFor(lat, lon) : null
+
+  // Reset/re-seed from cache synchronously during render when the key changes,
+  // rather than in an effect — React's recommended pattern for "adjusting
+  // state when a prop changes" (also avoids a synchronous setState inside the
+  // effect body, which the cache lookup itself would otherwise be).
+  const [renderedKey, setRenderedKey] = useState(key)
+  const [data, setData] = useState(() => (key ? readCache(key) : null))
   const [error, setError] = useState(null)
 
-  useEffect(() => {
-    if (!startPoint) {
-      setData(null)
-      return
-    }
+  if (key !== renderedKey) {
+    setRenderedKey(key)
+    setData(key ? readCache(key) : null)
+    setError(null)
+  }
 
-    const key = keyFor(startPoint.lat, startPoint.lon)
-    const cached = readCache(key)
-    if (cached) {
-      setData(cached)
-      return
-    }
+  useEffect(() => {
+    if (!key || readCache(key)) return // nothing to fetch — already served from cache above
 
     let cancelled = false
-    setData(null)
-    setError(null)
 
     const url =
-      `https://api.open-meteo.com/v1/forecast?latitude=${startPoint.lat}&longitude=${startPoint.lon}` +
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
       `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,sunrise,sunset` +
       `&wind_speed_unit=kmh&timezone=auto&forecast_days=6`
 
@@ -43,7 +46,7 @@ export function useWeather(startPoint) {
     return () => {
       cancelled = true
     }
-  }, [startPoint?.lat, startPoint?.lon])
+  }, [key, lat, lon])
 
   return { data, error }
 }

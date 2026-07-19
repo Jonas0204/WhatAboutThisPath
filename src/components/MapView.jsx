@@ -33,38 +33,48 @@ function countSetData(key) {
   window.__mapSetDataCounts[key] = (window.__mapSetDataCounts[key] ?? 0) + 1
 }
 
-function MapView({
-  tracks,
-  selectedId,
-  selectedGeometry,
-  allGeometries,
-  showAllTracks,
-  pois,
-  showPois,
-  userPosition,
-  isPositionOverride,
-  theme,
-  onSelect,
-  onBoundsChange,
-  isPickingLocation,
-  onPickLocation,
-}, ref) {
+function MapView(
+  {
+    tracks,
+    selectedId,
+    selectedGeometry,
+    allGeometries,
+    showAllTracks,
+    pois,
+    showPois,
+    userPosition,
+    isPositionOverride,
+    theme,
+    onSelect,
+    onBoundsChange,
+    isPickingLocation,
+    onPickLocation,
+  },
+  ref,
+) {
   const containerRef = useRef(null)
   const mapRef = useRef(null)
   const userMarkerRef = useRef(null)
   const poiPopupRef = useRef(null)
   const onSelectRef = useRef(onSelect)
-  onSelectRef.current = onSelect
   const onBoundsChangeRef = useRef(onBoundsChange)
-  onBoundsChangeRef.current = onBoundsChange
   const onPickLocationRef = useRef(onPickLocation)
-  onPickLocationRef.current = onPickLocation
   const isPickingLocationRef = useRef(isPickingLocation)
-  isPickingLocationRef.current = isPickingLocation
   const [isReady, setIsReady] = useState(false)
   const themeRef = useRef(theme)
   const cancelPrefetchRef = useRef(false)
   const suppressBoundsRef = useRef(false)
+
+  // Keep "latest value" refs in sync after each commit (not during render —
+  // mutating a ref while rendering is a React rule violation even though the
+  // ref itself isn't used for rendering) so the map's imperative event handlers
+  // (registered once) always see the current callback/flag without re-binding.
+  useEffect(() => {
+    onSelectRef.current = onSelect
+    onBoundsChangeRef.current = onBoundsChange
+    onPickLocationRef.current = onPickLocation
+    isPickingLocationRef.current = isPickingLocation
+  })
 
   useImperativeHandle(ref, () => ({
     async downloadOfflineMap(onProgress) {
@@ -171,6 +181,11 @@ function MapView({
       mapRef.current = null
       setIsReady(false)
     }
+    // Intentionally mount once: only reads `theme` for the *initial* style URL.
+    // Subsequent theme changes are handled by the separate setStyle() effect
+    // below — including `theme` here would recreate the whole map on every
+    // toggle instead of just swapping its style.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Swap the base style when the theme changes (skip the very first render,
@@ -229,7 +244,9 @@ function MapView({
     if (!map || !isReady) return
     const source = map.getSource('all-tracks')
     if (!source) return
-    source.setData(showAllTracks ? allTracksGeoJSON(tracks ?? [], allGeometries, selectedId) : EMPTY_COLLECTION)
+    source.setData(
+      showAllTracks ? allTracksGeoJSON(tracks ?? [], allGeometries, selectedId) : EMPTY_COLLECTION,
+    )
     countSetData('all-tracks')
   }, [isReady, tracks, allGeometries, showAllTracks, selectedId])
 
@@ -266,7 +283,9 @@ function MapView({
     }
 
     const { latitude, longitude } = userPosition.coords
-    const markerClass = isPositionOverride ? 'user-location-marker user-location-marker--override' : 'user-location-marker'
+    const markerClass = isPositionOverride
+      ? 'user-location-marker user-location-marker--override'
+      : 'user-location-marker'
     if (!userMarkerRef.current) {
       const el = document.createElement('div')
       el.className = markerClass

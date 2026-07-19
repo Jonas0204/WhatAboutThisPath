@@ -16,10 +16,7 @@ const difficultyColor = {
 function TrackListItem({ track, selected, onSelect, units }) {
   return (
     <li>
-      <button
-        className={`track-card${selected ? ' is-selected' : ''}`}
-        onClick={() => onSelect(track.id)}
-      >
+      <button className={`track-card${selected ? ' is-selected' : ''}`} onClick={() => onSelect(track.id)}>
         <div className="track-card__row">
           <span className="track-card__title">{track.title}</span>
           {track.difficulty && (

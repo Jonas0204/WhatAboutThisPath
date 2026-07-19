@@ -35,7 +35,10 @@ function buildStopsForZoom(map, bbox, zoom) {
   return stops
 }
 
-export async function prefetchArchipelago(map, { bbox, zooms, onProgress, shouldCancel, stopTimeoutMs = 8000 }) {
+export async function prefetchArchipelago(
+  map,
+  { bbox, zooms, onProgress, shouldCancel, stopTimeoutMs = 8000 },
+) {
   const allStops = zooms.flatMap((zoom) => buildStopsForZoom(map, bbox, zoom))
   let done = 0
 

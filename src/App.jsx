@@ -37,7 +37,10 @@ function App() {
   const effectivePosition = useMemo(() => {
     if (settings.locationOverride) {
       const { lat, lon } = settings.locationOverride
-      return { coords: { latitude: lat, longitude: lon, accuracy: 0 }, timestamp: Date.now() }
+      // `timestamp` isn't read anywhere for an override position (only real GPS
+      // fixes use it, to throttle updates in useGeolocation.js) — a static value
+      // keeps this memo pure instead of calling Date.now() during render.
+      return { coords: { latitude: lat, longitude: lon, accuracy: 0 }, timestamp: 0 }
     }
     return realPosition
   }, [settings.locationOverride, realPosition])

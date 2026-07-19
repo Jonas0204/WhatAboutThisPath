@@ -52,11 +52,7 @@ export function computeBounds(geojson) {
     const geom = feature.geometry
     if (!geom) continue
     const coordArrays =
-      geom.type === 'LineString'
-        ? [geom.coordinates]
-        : geom.type === 'Point'
-          ? [[geom.coordinates]]
-          : []
+      geom.type === 'LineString' ? [geom.coordinates] : geom.type === 'Point' ? [[geom.coordinates]] : []
     for (const coords of coordArrays) {
       for (const [lon, lat] of coords) {
         if (lat < minLat) minLat = lat

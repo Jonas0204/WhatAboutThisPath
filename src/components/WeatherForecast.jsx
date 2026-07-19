@@ -58,8 +58,8 @@ export default function WeatherForecast({ track, units }) {
       </p>
       {tightOnDaylight && (
         <p className="weather__warning">
-          ⚠ This hike's estimated duration is close to or exceeds today's daylight — start early or check a
-          longer-daylight day.
+          ⚠ This hike&apos;s estimated duration is close to or exceeds today&apos;s daylight — start early or
+          check a longer-daylight day.
         </p>
       )}
     </div>

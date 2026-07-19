@@ -22,11 +22,7 @@ const trackSources = [
     // it-faeroeer-2023-tramps_3.gpx: 99% bbox overlap + ~20m start-point match with
     // 04-wanderung-slaettaratindur-cs — same summit hike, just recorded one-way.
     // divers/sights: POI waypoint collections, not hiking tracks — see poi below.
-    exclude: [
-      'it-faeroeer-2023-tramps_3.gpx',
-      'it-faeroeer-2023-divers.gpx',
-      'it-faeroeer-2023-sights.gpx',
-    ],
+    exclude: ['it-faeroeer-2023-tramps_3.gpx', 'it-faeroeer-2023-divers.gpx', 'it-faeroeer-2023-sights.gpx'],
     // Book 1's filenames are already descriptive ("04 Wanderung Slættaratindur CS").
     // Book 2's are generic ("it-faeroeer-2023-tramps_1") — pull a cleaner name from
     // the GPX's own <trk><name> instead (e.g. "IT Färöer – Wanderung 1/Wanderung 1"
@@ -35,7 +31,10 @@ const trackSources = [
   },
 ]
 
-const poiSources = ['it-faeroeer-2023-gesamt_gpx/it-faeroeer-2023-divers.gpx', 'it-faeroeer-2023-gesamt_gpx/it-faeroeer-2023-sights.gpx']
+const poiSources = [
+  'it-faeroeer-2023-gesamt_gpx/it-faeroeer-2023-divers.gpx',
+  'it-faeroeer-2023-gesamt_gpx/it-faeroeer-2023-sights.gpx',
+]
 
 function slugify(name) {
   return name
@@ -61,7 +60,9 @@ function displayNameFromTrackName(geojson, fallback) {
 }
 
 function readXml(path) {
-  return readFileSync(path, 'utf-8').replace(/^﻿/, '')
+  const xml = readFileSync(path, 'utf-8')
+  // Strip a leading UTF-8 BOM if present (some GPX exports include one).
+  return xml.charCodeAt(0) === 0xfeff ? xml.slice(1) : xml
 }
 
 const index = []

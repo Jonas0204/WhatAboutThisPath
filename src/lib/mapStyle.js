@@ -59,8 +59,28 @@ export function greenifyStyle(map, theme) {
       'Background',
       'background-color',
       isDark
-        ? ['interpolate', ['linear'], ['zoom'], 5, 'hsl(100, 25%, 20%)', 10, 'hsl(100, 22%, 19%)', 14, 'hsl(100, 20%, 20%)']
-        : ['interpolate', ['linear'], ['zoom'], 5, 'hsl(96, 45%, 88%)', 10, 'hsl(100, 40%, 87%)', 14, 'hsl(100, 35%, 89%)'],
+        ? [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            5,
+            'hsl(100, 25%, 20%)',
+            10,
+            'hsl(100, 22%, 19%)',
+            14,
+            'hsl(100, 20%, 20%)',
+          ]
+        : [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            5,
+            'hsl(96, 45%, 88%)',
+            10,
+            'hsl(100, 40%, 87%)',
+            14,
+            'hsl(100, 35%, 89%)',
+          ],
     )
   }
   if (map.getLayer('Hillshade')) {

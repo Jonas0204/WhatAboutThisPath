@@ -131,13 +131,13 @@ export default function SettingsPanel({ settings, update, offlineDownload, locat
               </div>
             )}
             <span className="settings__tip">
-              Override this if your real GPS location (e.g. abroad) shouldn't be used for
+              Override this if your real GPS location (e.g. abroad) shouldn&apos;t be used for
               distance/directions to a hike.
             </span>
           </div>
 
           <p className="settings__tip">
-            Tracks and forecasts you've opened are also cached automatically for offline use.
+            Tracks and forecasts you&apos;ve opened are also cached automatically for offline use.
           </p>
         </div>
       )}
