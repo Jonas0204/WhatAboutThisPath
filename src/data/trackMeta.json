@@ -1,0 +1,50 @@
+{
+  "04-wanderung-sl-ttaratindur-cs": {
+    "sourceFile": "04 Wanderung Slættaratindur CS.gpx",
+    "title": "Slættaratindur",
+    "region": "Eysturoy",
+    "difficulty": "hard",
+    "durationHours": 3.5,
+    "description": "Hike up Slættaratindur, the highest peak in the Faroe Islands, with sweeping views across Eysturoy on a clear day.",
+    "tags": ["summit", "views"]
+  },
+  "14-wanderung-torshavn": {
+    "sourceFile": "14 Wanderung Tórshavn.gpx",
+    "title": "Tórshavn",
+    "region": "Streymoy",
+    "difficulty": "easy",
+    "durationHours": 1.5,
+    "description": "An easy walk around the Faroese capital, Tórshavn.",
+    "tags": ["town", "coastal"]
+  },
+  "09-wanderung-saksun-tj-rnuvik-cs": {
+    "sourceFile": "09 Wanderung Saksun Tjørnuvík CS.gpx",
+    "title": "Saksun to Tjørnuvík",
+    "region": "Streymoy",
+    "difficulty": "moderate",
+    "durationHours": 4,
+    "description": "A scenic route connecting the villages of Saksun and Tjørnuvík.",
+    "tags": ["coastal", "villages"]
+  },
+  "it-faeroeer-2023-stadtspaziergang1-torshavn": {
+    "sourceFile": "it-faeroeer-2023-Stadtspaziergang1_Tórshavn.gpx",
+    "region": "Streymoy",
+    "difficulty": "easy"
+  },
+  "it-faeroeer-2023-tramps-1": {
+    "sourceFile": "it-faeroeer-2023-tramps_1.gpx",
+    "region": "Streymoy"
+  },
+  "it-faeroeer-2023-tramps-2": {
+    "sourceFile": "it-faeroeer-2023-tramps_2.gpx",
+    "region": "Streymoy"
+  },
+  "it-faeroeer-2023-tramps-4": {
+    "sourceFile": "it-faeroeer-2023-tramps_4.gpx",
+    "region": "Suðuroy"
+  },
+  "it-faeroeer-2023-tramps-5": {
+    "sourceFile": "it-faeroeer-2023-tramps_5.gpx",
+    "region": "Vágar"
+  }
+}

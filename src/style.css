@@ -2,22 +2,770 @@
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #111827;
-  background: #f9fafb;
+
+  --accent: #e0574c;
+  --accent-dark: #c4453b;
+  --ink: #1a1d23;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --card-bg: #ffffff;
+  --page-bg: #f5f6f8;
+  --sidebar-bg: #fafafa;
+  --topbar-bg: #1a1d23;
+  --stats-bg: #f9fafb;
+  --text: #1a1d23;
+  --text-secondary: #374151;
 }
 
-body {
-  margin: 0;
+:root[data-theme='dark'] {
+  --accent: #ef7268;
+  --accent-dark: #e0574c;
+  --ink: #e8eaed;
+  --muted: #9aa1ac;
+  --border: #333844;
+  --card-bg: #1e2128;
+  --page-bg: #14161a;
+  --sidebar-bg: #191b20;
+  --topbar-bg: #0d0f12;
+  --stats-bg: #24272f;
+  --text: #e8eaed;
+  --text-secondary: #c3c8d1;
 }
 
-#app {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 2rem;
+* {
   box-sizing: border-box;
 }
 
-main {
+/* Renders before the app (and its theme system) mounts, so this uses its own
+   fixed dark palette rather than the --theme variables. */
+.password-gate {
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  background: #14161a;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.password-gate__card {
+  width: min(320px, calc(100vw - 2.5rem));
+  background: #1e2128;
+  border: 1px solid #333844;
+  border-radius: 12px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   text-align: center;
+}
+
+.password-gate__title {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #e8eaed;
+}
+
+.password-gate__hint {
+  margin: 0 0 0.25rem;
+  font-size: 0.82rem;
+  color: #9aa1ac;
+}
+
+.password-gate__input {
+  padding: 0.65rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #333844;
+  background: #14161a;
+  color: #e8eaed;
+  font-size: 0.9rem;
+}
+
+.password-gate__input:focus {
+  outline: none;
+  border-color: #e0574c;
+}
+
+.password-gate__error {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #f87171;
+}
+
+.password-gate__submit {
+  background: #e0574c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.password-gate__submit:hover {
+  background: #c4453b;
+}
+
+.password-gate__submit:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  /* Prevent the page itself from scrolling/rubber-banding — only the panels
+     below (sidebar list, detail panel) should scroll internally. Without this,
+     mobile browsers let the whole page pan behind the fixed-position map,
+     which is what caused the "glitching while scrolling" behavior. */
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: var(--page-bg);
+  color: var(--text);
+}
+
+#app {
+  height: 100vh;
+  height: 100dvh; /* mobile browsers: accounts for the address bar instead of jumping on scroll */
+  width: 100vw;
+  overflow: hidden;
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr 340px;
+  grid-template-rows: 56px 1fr;
+  grid-template-areas:
+    'top top top'
+    'sidebar main detail';
+  height: 100%;
+}
+
+/* Grid/flex children that scroll internally need min-height: 0, otherwise their
+   content's natural size can push past the row's intended height instead of
+   being clipped/scrolled — the other half of the mobile scroll-glitch fix. */
+.track-sidebar,
+.track-detail,
+.app-layout__main {
+  min-height: 0;
+}
+
+.app-topbar {
+  grid-area: top;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  background: var(--topbar-bg);
+  color: #fff;
+  z-index: 3;
+}
+
+.app-topbar__title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.app-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.offline-badge {
+  background: #92400e;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.app-layout__main {
+  grid-area: main;
+  position: relative;
+}
+
+.map-view {
+  position: absolute;
+  inset: 0;
+}
+
+.track-sidebar {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.track-sidebar__search-wrap {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--sidebar-bg);
+}
+
+.track-sidebar__search {
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+.track-sidebar__search:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(224, 87, 76, 0.15);
+}
+
+.track-sidebar__empty {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.track-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0.6rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.track-card {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  color: var(--text);
+}
+
+.track-card:hover {
+  border-color: #9aa1ac;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.track-card.is-selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(224, 87, 76, 0.15);
+}
+
+.track-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.track-card__title {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+
+.track-card__badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #fff;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+
+.track-card__meta {
+  font-size: 0.76rem;
+  color: var(--muted);
+  display: flex;
+  gap: 0.35rem;
+}
+
+.track-card__distance {
+  font-size: 0.72rem;
+  color: var(--accent-dark);
+  font-weight: 500;
+}
+
+.track-detail {
+  grid-area: detail;
+  border-left: 1px solid var(--border);
+  background: var(--card-bg);
+  padding: 1.25rem;
+  overflow-y: auto;
+}
+
+.track-detail--empty {
+  color: var(--muted);
+}
+
+.track-detail h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1.2rem;
+  color: var(--text);
+}
+
+.track-detail__region {
+  color: var(--muted);
+  margin: 0 0 0.85rem;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.track-detail__description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.track-detail__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem 1rem;
+  margin: 1.1rem 0;
+  padding: 0.9rem;
+  background: var(--stats-bg);
+  border-radius: 10px;
+}
+
+.track-detail__stats dt {
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.15rem;
+}
+
+.track-detail__stats dd {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.elevation-profile {
+  margin-top: 1rem;
+}
+
+.directions {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.directions__title {
+  margin: 0 0 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.directions__straight-line {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.directions__link {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+}
+
+.directions__link:hover {
+  background: var(--accent-dark);
+}
+
+.weather {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.weather__title {
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.weather__loading,
+.weather__error {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.weather__strip {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+}
+
+.weather__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  background: var(--stats-bg);
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+  min-width: 58px;
+  flex-shrink: 0;
+}
+
+.weather__day-label {
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.weather__emoji {
+  font-size: 1.15rem;
+}
+
+.weather__temps {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.weather__precip {
+  font-size: 0.66rem;
+  color: #3b82f6;
+}
+
+.weather__daylight {
+  margin: 0.6rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.weather__warning {
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
+  color: #b45309;
+  font-weight: 500;
+}
+
+.geolocation-banner {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--card-bg);
+  color: var(--text);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: 0.83rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  z-index: 1;
+}
+
+.geolocation-banner button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.83rem;
+}
+
+.geolocation-banner button:hover {
+  background: var(--accent-dark);
+}
+
+.user-location-marker {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #1c6fd6;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 4px rgba(28, 111, 214, 0.3);
+}
+
+.user-location-marker--override {
+  background: #8b5cf6;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.3);
+}
+
+.app-error {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.settings {
+  position: relative;
+}
+
+.settings__toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings__toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.settings__panel {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  padding: 0.9rem;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  z-index: 5;
+}
+
+.settings__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+
+.settings__row--toggle {
+  cursor: pointer;
+}
+
+.settings__segmented {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.settings__segmented button {
+  background: transparent;
+  color: var(--text);
+  border: none;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.76rem;
+  cursor: pointer;
+  text-transform: capitalize;
+  border-left: 1px solid var(--border);
+}
+
+.settings__segmented button:first-child {
+  border-left: none;
+}
+
+.settings__segmented button.is-active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.settings__tip {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  padding-top: 0.6rem;
+}
+
+.settings__row--column {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4rem;
+}
+
+.settings__override {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.settings__override select {
+  flex: 1;
+  min-width: 0;
+  padding: 0.35rem 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 0.76rem;
+}
+
+.settings__override-label {
+  flex: 1;
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+.settings__override button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.72rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.settings__download-start {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.settings__download-start:hover {
+  background: var(--accent-dark);
+}
+
+.settings__download {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.settings__progress-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.settings__progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.2s ease;
+}
+
+.settings__download-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+
+.settings__download-row button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+    /* Fixed/minmax rows instead of "auto" — auto rows size to content's natural
+       height, which for a scrollable 27-item list is much taller than the
+       intended clipped viewport, and can throw the whole grid's height off. */
+    grid-template-rows: 56px minmax(0, 26vh) minmax(140px, 1fr) minmax(0, auto);
+    grid-template-areas:
+      'top'
+      'sidebar'
+      'main'
+      'detail';
+  }
+
+  .track-sidebar {
+    max-height: 26vh;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .track-detail {
+    max-height: 34vh;
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Reclaim map space when nothing is selected instead of reserving 34vh for
+     a single placeholder line. */
+  .track-detail.track-detail--empty {
+    max-height: 3rem;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+  }
+
+  .app-topbar {
+    padding: 0 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .app-topbar__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.85rem;
+  }
+
+  /* Bigger touch targets (Apple/Google HIG recommend ~44px minimum). */
+  .settings__toggle {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .settings__panel {
+    max-width: calc(100vw - 1.5rem);
+    max-height: calc(100dvh - 5rem);
+    overflow-y: auto;
+  }
+
+  .geolocation-banner button {
+    padding: 0.55rem 0.9rem;
+  }
+
+  .track-card {
+    padding: 0.8rem 0.85rem;
+  }
 }

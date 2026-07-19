@@ -1,0 +1,674 @@
+[
+  {
+    "id": "01-wanderung-haraldssund-skar-cs",
+    "displayName": "01 Wanderung Haraldssund Skarð CS",
+    "sourceFile": "01 Wanderung Haraldssund Skarð CS.gpx",
+    "bounds": {
+      "minLat": 62.2706338763237,
+      "maxLat": 62.32458273880184,
+      "minLon": -6.649366384372115,
+      "maxLon": -6.602015839889646
+    },
+    "startPoint": {
+      "lat": 62.2706338763237,
+      "lon": -6.602015839889646
+    },
+    "distanceKm": 14.07,
+    "ascentM": 386,
+    "descentM": 386,
+    "minEle": 0.18,
+    "maxEle": 53.92,
+    "waypointCount": 3
+  },
+  {
+    "id": "02-wanderung-klaksvik-aarskar-cs",
+    "displayName": "02 Wanderung Klaksvík Áarskarð CS",
+    "sourceFile": "02 Wanderung Klaksvík Áarskarð CS.gpx",
+    "bounds": {
+      "minLat": 62.2265331633389,
+      "maxLat": 62.25557662546635,
+      "minLon": -6.587871462106705,
+      "maxLon": -6.558359116315842
+    },
+    "startPoint": {
+      "lat": 62.22669300623238,
+      "lon": -6.584949614480138
+    },
+    "distanceKm": 8.65,
+    "ascentM": 520,
+    "descentM": 547,
+    "minEle": -4.15,
+    "maxEle": 431.48,
+    "waypointCount": 3
+  },
+  {
+    "id": "03-wanderung-klaksvik-klakkur-cs",
+    "displayName": "03 Wanderung Klaksvík Klakkur CS",
+    "sourceFile": "03 Wanderung Klaksvík Klakkur CS.gpx",
+    "bounds": {
+      "minLat": 62.21867496147752,
+      "maxLat": 62.23708120174706,
+      "minLon": -6.617152215912938,
+      "maxLon": -6.576241403818131
+    },
+    "startPoint": {
+      "lat": 62.225831765681505,
+      "lon": -6.58662817440927
+    },
+    "distanceKm": 10.16,
+    "ascentM": 550,
+    "descentM": 527,
+    "minEle": -10.52,
+    "maxEle": 411.18,
+    "waypointCount": 3
+  },
+  {
+    "id": "04-wanderung-sl-ttaratindur-cs",
+    "displayName": "04 Wanderung Slættaratindur CS",
+    "sourceFile": "04 Wanderung Slættaratindur CS.gpx",
+    "bounds": {
+      "minLat": 62.28566153906286,
+      "maxLat": 62.29699571616948,
+      "minLon": -7.01531482860446,
+      "maxLon": -7.00383204035461
+    },
+    "startPoint": {
+      "lat": 62.28566153906286,
+      "lon": -7.006706278771162
+    },
+    "distanceKm": 3.66,
+    "ascentM": 498,
+    "descentM": 510,
+    "minEle": 382.08,
+    "maxEle": 870.86,
+    "waypointCount": 3
+  },
+  {
+    "id": "05-wanderung-oyndarfj-r-ur-elduvik-cs",
+    "displayName": "05 Wanderung Oyndarfjørður Elduvík CS",
+    "sourceFile": "05 Wanderung Oyndarfjørður Elduvík CS.gpx",
+    "bounds": {
+      "minLat": 62.27631856687367,
+      "maxLat": 62.28870442137122,
+      "minLon": -6.919118408113718,
+      "maxLon": -6.854204088449478
+    },
+    "startPoint": {
+      "lat": 62.27631856687367,
+      "lon": -6.854994501918554
+    },
+    "distanceKm": 9.47,
+    "ascentM": 425,
+    "descentM": 425,
+    "minEle": 3.79,
+    "maxEle": 153.13,
+    "waypointCount": 3
+  },
+  {
+    "id": "06-wanderung-fuglafj-r-ur-hellurnar-cs",
+    "displayName": "06 Wanderung Fuglafjørður Hellurnar CS",
+    "sourceFile": "06 Wanderung Fuglafjørður Hellurnar CS.gpx",
+    "bounds": {
+      "minLat": 62.24246112629771,
+      "maxLat": 62.26315001025796,
+      "minLon": -6.845636190846562,
+      "maxLon": -6.814195588231087
+    },
+    "startPoint": {
+      "lat": 62.24246112629771,
+      "lon": -6.814195588231087
+    },
+    "distanceKm": 7.09,
+    "ascentM": 753,
+    "descentM": 753,
+    "minEle": 1.64,
+    "maxEle": 350.94,
+    "waypointCount": 3
+  },
+  {
+    "id": "07-wanderung-oyrarbakki-selatra-cs",
+    "displayName": "07 Wanderung Oyrarbakki Selatrað CS",
+    "sourceFile": "07 Wanderung Oyrarbakki Selatrað CS.gpx",
+    "bounds": {
+      "minLat": 62.15599508956075,
+      "maxLat": 62.206999054178596,
+      "minLon": -6.998945809900761,
+      "maxLon": -6.840361207723618
+    },
+    "startPoint": {
+      "lat": 62.20624476671219,
+      "lon": -6.998945809900761
+    },
+    "distanceKm": 16.56,
+    "ascentM": 1022,
+    "descentM": 1053,
+    "minEle": 2.26171875,
+    "maxEle": 548.109375,
+    "waypointCount": 7
+  },
+  {
+    "id": "08-wanderung-toftavatn-cs",
+    "displayName": "08 Wanderung Toftavatn CS",
+    "sourceFile": "08 Wanderung Toftavatn CS.gpx",
+    "bounds": {
+      "minLat": 62.08236074075103,
+      "maxLat": 62.10861914791167,
+      "minLon": -6.737473011016846,
+      "maxLon": -6.700642425566912
+    },
+    "startPoint": {
+      "lat": 62.10861914791167,
+      "lon": -6.724645933136344
+    },
+    "distanceKm": 10.27,
+    "ascentM": 436,
+    "descentM": 437,
+    "minEle": 1.29,
+    "maxEle": 111.41,
+    "waypointCount": 5
+  },
+  {
+    "id": "09-wanderung-saksun-tj-rnuvik-cs",
+    "displayName": "09 Wanderung Saksun Tjørnuvík CS",
+    "sourceFile": "09 Wanderung Saksun Tjørnuvík CS.gpx",
+    "bounds": {
+      "minLat": 62.245878679677844,
+      "maxLat": 62.28946155868471,
+      "minLon": -7.18911568634212,
+      "maxLon": -7.149667767807841
+    },
+    "startPoint": {
+      "lat": 62.245878679677844,
+      "lon": -7.176860254257917
+    },
+    "distanceKm": 13.28,
+    "ascentM": 1047,
+    "descentM": 1047,
+    "minEle": 2.28,
+    "maxEle": 525.03,
+    "waypointCount": 3
+  },
+  {
+    "id": "10-wanderung-vestmanna-hvalvik-kvivik-cs",
+    "displayName": "10 Wanderung Vestmanna Hvalvík Kvívík CS",
+    "sourceFile": "10 Wanderung Vestmanna Hvalvík Kvívík CS.gpx",
+    "bounds": {
+      "minLat": 62.118688160553575,
+      "maxLat": 62.18331975862384,
+      "minLon": -7.147952495142818,
+      "maxLon": -7.055622478947043
+    },
+    "startPoint": {
+      "lat": 62.152594551444054,
+      "lon": -7.145219743251801
+    },
+    "distanceKm": 17.96,
+    "ascentM": 911,
+    "descentM": 894,
+    "minEle": 6.8984375,
+    "maxEle": 450.3984375,
+    "waypointCount": 7
+  },
+  {
+    "id": "11-wanderung-hosvik-leynarvatn-leynar",
+    "displayName": "11 Wanderung Hosvík Leynarvatn Leynar",
+    "sourceFile": "11 Wanderung Hosvík Leynarvatn Leynar.gpx",
+    "bounds": {
+      "minLat": 62.12134103290737,
+      "maxLat": 62.15446723625064,
+      "minLon": -7.04398806206882,
+      "maxLon": -6.94370822981
+    },
+    "startPoint": {
+      "lat": 62.151818722486496,
+      "lon": -6.94370822981
+    },
+    "distanceKm": 7.61,
+    "ascentM": 635,
+    "descentM": 633,
+    "minEle": 16.0078125,
+    "maxEle": 562.51171875,
+    "waypointCount": 3
+  },
+  {
+    "id": "12-wanderung-kollafjar-ardalur-leynar-cs",
+    "displayName": "12 Wanderung Kollafjarðardalur Leynar CS",
+    "sourceFile": "12 Wanderung Kollafjarðardalur Leynar CS.gpx",
+    "bounds": {
+      "minLat": 62.10302598774433,
+      "maxLat": 62.114904737100005,
+      "minLon": -7.040706546977162,
+      "maxLon": -6.964932549744844
+    },
+    "startPoint": {
+      "lat": 62.10711828432977,
+      "lon": -6.992800533771515
+    },
+    "distanceKm": 15.23,
+    "ascentM": 1098,
+    "descentM": 1100,
+    "minEle": -1.21,
+    "maxEle": 626.9,
+    "waypointCount": 3
+  },
+  {
+    "id": "13-wanderung-skeidskar-nor-radalur-cs",
+    "displayName": "13 Wanderung Skeidskarð Norðradalur CS",
+    "sourceFile": "13 Wanderung Skeidskarð Norðradalur CS.gpx",
+    "bounds": {
+      "minLat": 62.04015978612006,
+      "maxLat": 62.082020519301295,
+      "minLon": -6.987058930099011,
+      "maxLon": -6.952524902299047
+    },
+    "startPoint": {
+      "lat": 62.081780629232526,
+      "lon": -6.952524902299047
+    },
+    "distanceKm": 14.57,
+    "ascentM": 746,
+    "descentM": 746,
+    "minEle": 107.41,
+    "maxEle": 503.83,
+    "waypointCount": 3
+  },
+  {
+    "id": "14-wanderung-torshavn",
+    "displayName": "14 Wanderung Tórshavn",
+    "sourceFile": "14 Wanderung Tórshavn.gpx",
+    "bounds": {
+      "minLat": 62.00120095163584,
+      "maxLat": 62.0124826580286,
+      "minLon": -6.823795633390546,
+      "maxLon": -6.800495199859142
+    },
+    "startPoint": {
+      "lat": 62.00674960389733,
+      "lon": -6.800495199859142
+    },
+    "distanceKm": 5.09,
+    "ascentM": 191,
+    "descentM": 190,
+    "minEle": 106.83203125,
+    "maxEle": 213.78125,
+    "waypointCount": 3
+  },
+  {
+    "id": "15-wanderung-torshavn-kirkjub-ur-cs",
+    "displayName": "15 Wanderung Tórshavn Kirkjubøur CS",
+    "sourceFile": "15 Wanderung Tórshavn Kirkjubøur CS.gpx",
+    "bounds": {
+      "minLat": 61.9519645627588,
+      "maxLat": 62.0000908523798,
+      "minLon": -6.824646145105362,
+      "maxLon": -6.79409503005445
+    },
+    "startPoint": {
+      "lat": 62.0000908523798,
+      "lon": -6.807438265532255
+    },
+    "distanceKm": 12.72,
+    "ascentM": 642,
+    "descentM": 642,
+    "minEle": -3.33,
+    "maxEle": 246.89,
+    "waypointCount": 3
+  },
+  {
+    "id": "16-wanderung-nolsoy-nolsoyarviti",
+    "displayName": "16 Wanderung Nólsoy Nólsoyarviti",
+    "sourceFile": "16 Wanderung Nólsoy Nólsoyarviti.gpx",
+    "bounds": {
+      "minLat": 61.957386899739504,
+      "maxLat": 62.00923525728285,
+      "minLon": -6.675968114286661,
+      "maxLon": -6.614661533385515
+    },
+    "startPoint": {
+      "lat": 62.00629974715412,
+      "lon": -6.672126771882176
+    },
+    "distanceKm": 14.86,
+    "ascentM": 534,
+    "descentM": 519,
+    "minEle": -17.83,
+    "maxEle": 226.58,
+    "waypointCount": 4
+  },
+  {
+    "id": "17-wanderung-gasadalur-fjallavatn-vatnsoyrar-cs",
+    "displayName": "17 Wanderung Gásadalur Fjallavatn Vatnsoyrar CS",
+    "sourceFile": "17 Wanderung Gásadalur Fjallavatn Vatnsoyrar CS.gpx",
+    "bounds": {
+      "minLat": 62.07252139225602,
+      "maxLat": 62.12558479048312,
+      "minLon": -7.440487453714013,
+      "maxLon": -7.249216446653009
+    },
+    "startPoint": {
+      "lat": 62.11037398315966,
+      "lon": -7.437008209526539
+    },
+    "distanceKm": 16.25,
+    "ascentM": 741,
+    "descentM": 789,
+    "minEle": 29.29,
+    "maxEle": 588.72,
+    "waypointCount": 7
+  },
+  {
+    "id": "18-wanderung-b-ur-gasadalur-cs",
+    "displayName": "18 Wanderung Bøur Gásadalur CS",
+    "sourceFile": "18 Wanderung Bøur Gásadalur CS.gpx",
+    "bounds": {
+      "minLat": 62.0939358137548,
+      "maxLat": 62.11091076023877,
+      "minLon": -7.443413995206356,
+      "maxLon": -7.40170824341476
+    },
+    "startPoint": {
+      "lat": 62.09670988842845,
+      "lon": -7.40170824341476
+    },
+    "distanceKm": 9.28,
+    "ascentM": 1069,
+    "descentM": 1069,
+    "minEle": 48.78,
+    "maxEle": 451.78,
+    "waypointCount": 3
+  },
+  {
+    "id": "19-wanderung-sandavagur-tr-llkonufingur-cs",
+    "displayName": "19 Wanderung Sandavágur Trøllkonufingur CS",
+    "sourceFile": "19 Wanderung Sandavágur Trøllkonufingur CS.gpx",
+    "bounds": {
+      "minLat": 62.04466229304671,
+      "maxLat": 62.05654087476432,
+      "minLon": -7.153217168524861,
+      "maxLon": -7.125758724287152
+    },
+    "startPoint": {
+      "lat": 62.05381751060486,
+      "lon": -7.151190927252173
+    },
+    "distanceKm": 5.13,
+    "ascentM": 145,
+    "descentM": 153,
+    "minEle": -1.04,
+    "maxEle": 103.51,
+    "waypointCount": 3
+  },
+  {
+    "id": "20-wanderung-skopun-liraberg-cs",
+    "displayName": "20 Wanderung Skopun Líraberg CS",
+    "sourceFile": "20 Wanderung Skopun Líraberg CS.gpx",
+    "bounds": {
+      "minLat": 61.89926636405289,
+      "maxLat": 61.905015176162124,
+      "minLon": -6.931733675301075,
+      "maxLon": -6.878128806129098
+    },
+    "startPoint": {
+      "lat": 61.90283018164337,
+      "lon": -6.878356290981174
+    },
+    "distanceKm": 7.39,
+    "ascentM": 315,
+    "descentM": 293,
+    "minEle": -25.38,
+    "maxEle": 192.32,
+    "waypointCount": 3
+  },
+  {
+    "id": "21-wanderung-sandur-s-ltuvik-cs",
+    "displayName": "21 Wanderung Sandur Søltuvík CS",
+    "sourceFile": "21 Wanderung Sandur Søltuvík CS.gpx",
+    "bounds": {
+      "minLat": 61.834814473986626,
+      "maxLat": 61.84768723323941,
+      "minLon": -6.894537303596735,
+      "maxLon": -6.820398531854153
+    },
+    "startPoint": {
+      "lat": 61.836741054430604,
+      "lon": -6.820398531854153
+    },
+    "distanceKm": 10.47,
+    "ascentM": 444,
+    "descentM": 444,
+    "minEle": 8.95,
+    "maxEle": 87.74,
+    "waypointCount": 3
+  },
+  {
+    "id": "22-wanderung-gu-runarl-kur-skarvanes-dalur-cs",
+    "displayName": "22 Wanderung Guðrunarløkur Skarvanes Dalur CS",
+    "sourceFile": "22 Wanderung Guðrunarløkur Skarvanes Dalur CS.gpx",
+    "bounds": {
+      "minLat": 61.782895205542445,
+      "maxLat": 61.81854302063584,
+      "minLon": -6.747891213744879,
+      "maxLon": -6.656210878863931
+    },
+    "startPoint": {
+      "lat": 61.81853061541915,
+      "lon": -6.718450114130974
+    },
+    "distanceKm": 16.03,
+    "ascentM": 804,
+    "descentM": 801,
+    "minEle": -2.93,
+    "maxEle": 293.26,
+    "waypointCount": 7
+  },
+  {
+    "id": "23-wanderung-sandvik-asmundarstakkur-hvalba-cs",
+    "displayName": "23 Wanderung Sandvík Ásmundarstakkur Hvalba CS",
+    "sourceFile": "23 Wanderung Sandvík Ásmundarstakkur Hvalba CS.gpx",
+    "bounds": {
+      "minLat": 61.600473979488015,
+      "maxLat": 61.63283424451947,
+      "minLon": -6.98230798356235,
+      "maxLon": -6.92894141189754
+    },
+    "startPoint": {
+      "lat": 61.63186990655959,
+      "lon": -6.928956164047122
+    },
+    "distanceKm": 10.45,
+    "ascentM": 642,
+    "descentM": 672,
+    "minEle": -0.62,
+    "maxEle": 366.3,
+    "waypointCount": 5
+  },
+  {
+    "id": "24-wanderung-nes-trongisvagur-cs",
+    "displayName": "24 Wanderung Nes Trongisvágur CS",
+    "sourceFile": "24 Wanderung Nes Trongisvágur CS.gpx",
+    "bounds": {
+      "minLat": 61.56413138844073,
+      "maxLat": 61.59059037454426,
+      "minLon": -6.935481308028102,
+      "maxLon": -6.865872116759419
+    },
+    "startPoint": {
+      "lat": 61.59059037454426,
+      "lon": -6.935481308028102
+    },
+    "distanceKm": 5.42,
+    "ascentM": 403,
+    "descentM": 359,
+    "minEle": -1.84,
+    "maxEle": 364.56,
+    "waypointCount": 3
+  },
+  {
+    "id": "25-wanderung-tv-royri-hvannhagi-cs",
+    "displayName": "25 Wanderung Tvøroyri Hvannhagi CS",
+    "sourceFile": "25 Wanderung Tvøroyri Hvannhagi CS.gpx",
+    "bounds": {
+      "minLat": 61.55481825582683,
+      "maxLat": 61.578577095642686,
+      "minLon": -6.835156967863441,
+      "maxLon": -6.807199632748961
+    },
+    "startPoint": {
+      "lat": 61.55481825582683,
+      "lon": -6.807213127613068
+    },
+    "distanceKm": 7.74,
+    "ascentM": 458,
+    "descentM": 433,
+    "minEle": -17.88,
+    "maxEle": 211.18,
+    "waypointCount": 3
+  },
+  {
+    "id": "26-wanderung-tv-royri-fro-ba-cs",
+    "displayName": "26 Wanderung Tvøroyri Froðba CS",
+    "sourceFile": "26 Wanderung Tvøroyri Froðba CS.gpx",
+    "bounds": {
+      "minLat": 61.54412764124572,
+      "maxLat": 61.554811550304294,
+      "minLon": -6.806963682174683,
+      "maxLon": -6.748802997171879
+    },
+    "startPoint": {
+      "lat": 61.554811550304294,
+      "lon": -6.806963682174683
+    },
+    "distanceKm": 7.78,
+    "ascentM": 271,
+    "descentM": 281,
+    "minEle": -2.61,
+    "maxEle": 62.72,
+    "waypointCount": 3
+  },
+  {
+    "id": "27-wanderung-trongisvagur-famjin-vagur-cs",
+    "displayName": "27 Wanderung Trongisvágur Fámjin Vágur CS",
+    "sourceFile": "27 Wanderung Trongisvágur Fámjin Vágur CS.gpx",
+    "bounds": {
+      "minLat": 61.47339401766658,
+      "maxLat": 61.56405125744641,
+      "minLon": -6.889535151422024,
+      "maxLon": -6.816153014078736
+    },
+    "startPoint": {
+      "lat": 61.56405125744641,
+      "lon": -6.86584671959281
+    },
+    "distanceKm": 16.89,
+    "ascentM": 969,
+    "descentM": 1015,
+    "minEle": 0.89,
+    "maxEle": 381.18,
+    "waypointCount": 7
+  },
+  {
+    "id": "it-faeroeer-2023-stadtspaziergang1-torshavn",
+    "displayName": "Stadtspaziergang 1 Tórshavn",
+    "sourceFile": "it-faeroeer-2023-Stadtspaziergang1_Tórshavn.gpx",
+    "bounds": {
+      "minLat": 62.0092494,
+      "maxLat": 62.0149238,
+      "minLon": -6.7781889,
+      "maxLon": -6.7691982
+    },
+    "startPoint": {
+      "lat": 62.0092494,
+      "lon": -6.7691982
+    },
+    "distanceKm": 0.89,
+    "ascentM": 0,
+    "descentM": 0,
+    "minEle": 0,
+    "maxEle": 0,
+    "waypointCount": 0
+  },
+  {
+    "id": "it-faeroeer-2023-tramps-1",
+    "displayName": "Wanderung 1",
+    "sourceFile": "it-faeroeer-2023-tramps_1.gpx",
+    "bounds": {
+      "minLat": 61.9518982,
+      "maxLat": 62.0001693,
+      "minLon": -6.824913,
+      "maxLon": -6.7925441
+    },
+    "startPoint": {
+      "lat": 62.0001693,
+      "lon": -6.8070173
+    },
+    "distanceKm": 6.32,
+    "ascentM": 0,
+    "descentM": 0,
+    "minEle": 0,
+    "maxEle": 0,
+    "waypointCount": 0
+  },
+  {
+    "id": "it-faeroeer-2023-tramps-2",
+    "displayName": "Wanderung 2",
+    "sourceFile": "it-faeroeer-2023-tramps_2.gpx",
+    "bounds": {
+      "minLat": 62.2419903,
+      "maxLat": 62.2915181,
+      "minLon": -7.1895218,
+      "maxLon": -7.0937347
+    },
+    "startPoint": {
+      "lat": 62.2419903,
+      "lon": -7.1788788
+    },
+    "distanceKm": 17.04,
+    "ascentM": 0,
+    "descentM": 0,
+    "minEle": 0,
+    "maxEle": 0,
+    "waypointCount": 0
+  },
+  {
+    "id": "it-faeroeer-2023-tramps-4",
+    "displayName": "Wanderung 4",
+    "sourceFile": "it-faeroeer-2023-tramps_4.gpx",
+    "bounds": {
+      "minLat": 61.5551673,
+      "maxLat": 61.5799576,
+      "minLon": -6.8460703,
+      "maxLon": -6.8098176
+    },
+    "startPoint": {
+      "lat": 61.5551673,
+      "lon": -6.8109226
+    },
+    "distanceKm": 5.96,
+    "ascentM": 0,
+    "descentM": 0,
+    "minEle": 0,
+    "maxEle": 0,
+    "waypointCount": 0
+  },
+  {
+    "id": "it-faeroeer-2023-tramps-5",
+    "displayName": "Wanderung 5",
+    "sourceFile": "it-faeroeer-2023-tramps_5.gpx",
+    "bounds": {
+      "minLat": 62.0206826,
+      "maxLat": 62.0482991,
+      "minLon": -7.2445393,
+      "maxLon": -7.1956587
+    },
+    "startPoint": {
+      "lat": 62.0482937,
+      "lon": -7.1956587
+    },
+    "distanceKm": 10.29,
+    "ascentM": 0,
+    "descentM": 0,
+    "minEle": 0,
+    "maxEle": 0,
+    "waypointCount": 0
+  }
+]
