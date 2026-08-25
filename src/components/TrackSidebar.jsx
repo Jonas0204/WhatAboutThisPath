@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react'
 import TrackListItem from './TrackListItem.jsx'
+import { fetchGeometry } from '../lib/geometryCache.js'
+import { buildGpx, downloadGpx } from '../lib/gpxExport.js'
 
 function isWithinBounds(track, visibleBounds) {
   if (!visibleBounds || !track.startPoint) return true
@@ -8,6 +10,7 @@ function isWithinBounds(track, visibleBounds) {
 
 export default function TrackSidebar({ tracks, selectedId, onSelect, units, visibleBounds }) {
   const [query, setQuery] = useState('')
+  const [downloadingAll, setDownloadingAll] = useState(false)
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase()
@@ -22,6 +25,18 @@ export default function TrackSidebar({ tracks, selectedId, onSelect, units, visi
     })
   }, [tracks, query, visibleBounds])
 
+  const handleDownloadAll = async () => {
+    setDownloadingAll(true)
+    try {
+      const entries = await Promise.all(
+        filtered.map((t) => fetchGeometry(t.id).then((geometry) => ({ name: t.title, geometry }))),
+      )
+      downloadGpx('faroe-islands-tracks.gpx', buildGpx(entries))
+    } finally {
+      setDownloadingAll(false)
+    }
+  }
+
   return (
     <aside className="track-sidebar">
       <div className="track-sidebar__search-wrap">
@@ -32,6 +47,13 @@ export default function TrackSidebar({ tracks, selectedId, onSelect, units, visi
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
+        <button
+          className="track-sidebar__download-all"
+          onClick={handleDownloadAll}
+          disabled={downloadingAll || filtered.length === 0}
+        >
+          {downloadingAll ? 'Preparing…' : `Download all ${filtered.length} as GPX`}
+        </button>
       </div>
       {filtered.length === 0 ? (
         <p className="track-sidebar__empty">No tracks in this view — zoom or pan out to see more.</p>

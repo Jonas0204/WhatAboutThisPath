@@ -2,6 +2,7 @@ import ElevationProfile from './ElevationProfile.jsx'
 import WeatherForecast from './WeatherForecast.jsx'
 import DirectionsToTrailhead from './DirectionsToTrailhead.jsx'
 import { formatDistance, formatElevation } from '../lib/units.js'
+import { buildGpx, downloadGpx } from '../lib/gpxExport.js'
 
 export default function TrackDetailPanel({ track, geometry, units, originPosition }) {
   if (!track) {
@@ -12,11 +13,20 @@ export default function TrackDetailPanel({ track, geometry, units, originPositio
     )
   }
 
+  const handleDownloadGpx = () => {
+    if (!geometry) return
+    downloadGpx(`${track.id}.gpx`, buildGpx([{ name: track.title, geometry }]))
+  }
+
   return (
     <div className="track-detail">
       <h2>{track.title}</h2>
       {track.region && <p className="track-detail__region">{track.region}</p>}
       <p className="track-detail__description">{track.description}</p>
+
+      <button className="track-detail__gpx-download" onClick={handleDownloadGpx} disabled={!geometry}>
+        {geometry ? 'Download GPX' : 'Loading track…'}
+      </button>
 
       <dl className="track-detail__stats">
         <div>

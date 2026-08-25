@@ -242,6 +242,28 @@ body {
   box-shadow: 0 0 0 3px rgba(224, 87, 76, 0.15);
 }
 
+.track-sidebar__download-all {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 0.76rem;
+  cursor: pointer;
+}
+
+.track-sidebar__download-all:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+}
+
+.track-sidebar__download-all:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 .track-sidebar__empty {
   padding: 1.5rem 1rem;
   text-align: center;
@@ -353,6 +375,26 @@ body {
 .track-detail__description {
   font-size: 0.9rem;
   color: var(--text-secondary);
+}
+
+.track-detail__gpx-download {
+  margin: 0.75rem 0 0;
+  padding: 0.45rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.track-detail__gpx-download:hover:not(:disabled) {
+  background: var(--accent-dark);
+}
+
+.track-detail__gpx-download:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
 .track-detail__stats {
