@@ -1,5 +1,8 @@
 function escapeXml(str) {
-  return String(str).replace(/[<>&'"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' })[c])
+  return String(str).replace(
+    /[<>&'"]/g,
+    (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' })[c],
+  )
 }
 
 function trackPointsXml(coordinates, times) {
