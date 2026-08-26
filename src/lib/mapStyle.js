@@ -31,7 +31,7 @@ export function poisGeoJSON(pois) {
     features: (pois ?? []).map((p) => ({
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
-      properties: { id: p.id, name: p.name },
+      properties: { id: p.id, name: p.name, mapsQuery: p.mapsQuery ?? null },
     })),
   }
 }

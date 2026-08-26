@@ -1475,5 +1475,13 @@
     "lat": 61.405225,
     "lon": -6.7128,
     "source": "it-faeroeer-2023-sights.gpx"
+  },
+  {
+    "id": "manual-marna-luxus-guesthouse-lynggota-8",
+    "name": "🏡 Unterkunft: Marna Luxus Guesthouse (8 Lynggøta, Tórshavn)",
+    "lat": 62.0189,
+    "lon": -6.7556,
+    "source": "manual",
+    "mapsQuery": "8 Lynggøta, Tórshavn, Faroe Islands"
   }
 ]

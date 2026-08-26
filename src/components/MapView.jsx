@@ -23,6 +23,11 @@ const EMPTY_COLLECTION = { type: 'FeatureCollection', features: [] }
 // in areas you haven't separately browsed will show blank tiles until online again.
 const PREFETCH_ZOOMS = [8, 10, 12]
 
+function googleMapsDestinationUrl({ lat, lon, query }) {
+  const destination = query ? encodeURIComponent(query) : `${lat},${lon}`
+  return `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`
+}
+
 // Dev-only call counter so a Playwright/console check can confirm a given map
 // source isn't being re-written on every geolocation tick (see README's
 // "performance" section) — Profiler measures React's render cost, not this kind
@@ -142,10 +147,27 @@ function MapView(
       map.on('click', 'pois-dot', (e) => {
         const feature = e.features?.[0]
         if (!feature) return
+        const [lon, lat] = feature.geometry.coordinates
+        const mapsUrl = googleMapsDestinationUrl({
+          lat,
+          lon,
+          query: feature.properties?.mapsQuery,
+        })
+        const popupContent = document.createElement('div')
+        const title = document.createElement('strong')
+        title.textContent = feature.properties.name
+        popupContent.appendChild(title)
+        popupContent.appendChild(document.createElement('br'))
+        const link = document.createElement('a')
+        link.href = mapsUrl
+        link.target = '_blank'
+        link.rel = 'noreferrer'
+        link.textContent = '🧭 In Google Maps navigieren'
+        popupContent.appendChild(link)
         poiPopupRef.current?.remove()
         poiPopupRef.current = new maplibregl.Popup({ closeButton: true, offset: 8 })
           .setLngLat(feature.geometry.coordinates)
-          .setText(feature.properties.name)
+          .setDOMContent(popupContent)
           .addTo(map)
       })
       map.on('mouseenter', 'pois-dot', () => {
