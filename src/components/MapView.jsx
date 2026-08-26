@@ -100,6 +100,7 @@ function MapView(
     userPosition,
     isPositionOverride,
     theme,
+    fitPadding,
     onSelect,
     onBoundsChange,
     isPickingLocation,
@@ -115,6 +116,7 @@ function MapView(
   const onBoundsChangeRef = useRef(onBoundsChange)
   const onPickLocationRef = useRef(onPickLocation)
   const isPickingLocationRef = useRef(isPickingLocation)
+  const fitPaddingRef = useRef(fitPadding)
   const [isReady, setIsReady] = useState(false)
   const themeRef = useRef(theme)
   const cancelPrefetchRef = useRef(false)
@@ -129,6 +131,7 @@ function MapView(
     onBoundsChangeRef.current = onBoundsChange
     onPickLocationRef.current = onPickLocation
     isPickingLocationRef.current = isPickingLocation
+    fitPaddingRef.current = fitPadding
   })
 
   useImperativeHandle(ref, () => ({
@@ -331,7 +334,9 @@ function MapView(
 
     if (selectedGeometry) {
       const bounds = boundsFromGeoJSON(selectedGeometry)
-      if (bounds) map.fitBounds(bounds, { padding: 80, duration: 500 })
+      // Read through a ref: the padding only changes when the breakpoint does,
+      // and refitting the map on that alone would fight the user's own panning.
+      if (bounds) map.fitBounds(bounds, { padding: fitPaddingRef.current ?? 80, duration: 500 })
     }
   }, [isReady, selectedGeometry])
 

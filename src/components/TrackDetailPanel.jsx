@@ -4,7 +4,7 @@ import DirectionsToTrailhead from './DirectionsToTrailhead.jsx'
 import { formatDistance, formatElevation } from '../lib/units.js'
 import { buildGpx, downloadGpx } from '../lib/gpxExport.js'
 
-export default function TrackDetailPanel({ track, geometry, units, originPosition, theme }) {
+export default function TrackDetailPanel({ track, geometry, units, originPosition, theme, onClose }) {
   if (!track) {
     return (
       <div className="track-detail track-detail--empty">
@@ -20,8 +20,19 @@ export default function TrackDetailPanel({ track, geometry, units, originPositio
 
   return (
     <div className="track-detail">
-      <h2>{track.title}</h2>
-      {track.region && <p className="track-detail__region">{track.region}</p>}
+      {/* Sticky, so the way out stays reachable however far down you've scrolled —
+          and so the mobile sheet's `peek` state still shows what's open. */}
+      <div className="track-detail__header">
+        <div className="track-detail__heading">
+          <h2>{track.title}</h2>
+          {track.region && <p className="track-detail__region">{track.region}</p>}
+        </div>
+        <button className="track-detail__close" onClick={onClose} aria-label="Close track details">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
       <p className="track-detail__description">{track.description}</p>
 
       <button className="track-detail__gpx-download" onClick={handleDownloadGpx} disabled={!geometry}>

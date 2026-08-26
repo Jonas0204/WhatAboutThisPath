@@ -101,11 +101,24 @@ Each track's detail panel shows the straight-line distance to your current locat
 
 ## Mobile
 
-Below 900px width, the layout stacks into top bar / sidebar / map / detail panel. Two mobile-specific fixes worth knowing about if you touch the layout again:
+Below 900px width the app is a map with a bottom sheet over it, not a stack of panels. The earlier layout gave the list, the map and the detail panel about 250px each on a phone, which made all three unusable; now the map owns everything below the top bar, and the list and detail panel share one sheet the user drags.
+
+The sheet ([`src/components/BottomSheet.jsx`](src/components/BottomSheet.jsx)) snaps to three heights — `peek` (10dvh, just the track title and its close button), `half` (52dvh, the default) and `full` (88dvh). Drag the grip to resize and it snaps to the nearest; tap it to toggle between `half` and `peek`. The fractions live in [`src/lib/sheetSnap.js`](src/lib/sheetSnap.js) and are mirrored as `dvh` values on `[data-state]` in `style.css` — change them in both places.
+
+Two structural notes:
+
+- On desktop the same wrapper is `display: contents`, so `.track-sidebar` and `.track-detail` fall straight back into their own grid columns and none of the sheet applies. The grip is always in the DOM (hidden by CSS on desktop) so crossing the breakpoint only swaps a class, instead of shifting child indexes and remounting the list and detail panel on every resize.
+- `fitBounds` on mobile reserves the `half` height as bottom padding, otherwise selecting a track centres it behind the sheet.
+
+Older mobile fixes still worth knowing about if you touch the layout again:
 
 - `#app` uses `100dvh` (with a `100vh` fallback) instead of plain `100vh` — mobile browsers resize their address bar as you scroll, and plain `vh` recalculates against that, causing a jumpy layout. `html, body` also get `overflow: hidden` and `overscroll-behavior: none` so only the intended inner panels (sidebar list, detail panel) scroll — without this, the whole page could scroll/rubber-band behind the fixed layout, which is what caused the reported "glitching while scrolling."
 - Grid rows in the mobile media query use explicit `minmax(...)` instead of `auto`, and `.track-sidebar`/`.track-detail`/`.app-layout__main` all get `min-height: 0`. Without this, a scrollable flex child's _content_ height (e.g. all 32 list items) can push the CSS grid row taller than its intended `max-height` clamp — a common grid/flex interaction gotcha.
-- The empty-state detail panel (`.track-detail--empty`) collapses to a thin strip on mobile instead of reserving ~34vh for a single placeholder line, so the map gets the space back until a track is actually selected.
+- Only one of the two panels is ever the sheet's content (`[data-view]`), so the empty-state detail panel never takes up mobile space at all.
+
+## Clearing a selected track
+
+Three ways out, because a selected track takes over the map (and, on mobile, the sheet): the ✕ in the detail panel's sticky header, tapping the open track again in the list or on its trailhead marker, and Escape. Anything layered above the map — currently the settings popover — handles Escape first in the capture phase and calls `preventDefault()`, so one press only ever dismisses one thing.
 
 Verified with real touch-drag simulation (Chromium's CDP `Input.dispatchTouchEvent`, not just mouse/viewport emulation): a swipe on the sidebar list scrolls the list while the document itself stays at `scrollTop: 0`, and a swipe on the map pans it without any page-level scroll.
 
