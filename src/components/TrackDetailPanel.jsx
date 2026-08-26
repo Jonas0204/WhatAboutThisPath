@@ -4,7 +4,7 @@ import DirectionsToTrailhead from './DirectionsToTrailhead.jsx'
 import { formatDistance, formatElevation } from '../lib/units.js'
 import { buildGpx, downloadGpx } from '../lib/gpxExport.js'
 
-export default function TrackDetailPanel({ track, geometry, units, originPosition }) {
+export default function TrackDetailPanel({ track, geometry, units, originPosition, theme }) {
   if (!track) {
     return (
       <div className="track-detail track-detail--empty">
@@ -25,6 +25,10 @@ export default function TrackDetailPanel({ track, geometry, units, originPositio
       <p className="track-detail__description">{track.description}</p>
 
       <button className="track-detail__gpx-download" onClick={handleDownloadGpx} disabled={!geometry}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">
+          <path d="M12 4v12m0 0l-4.5-4.5M12 16l4.5-4.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4 20h16" strokeLinecap="round" />
+        </svg>
         {geometry ? 'Download GPX' : 'Loading track…'}
       </button>
 
@@ -53,7 +57,7 @@ export default function TrackDetailPanel({ track, geometry, units, originPositio
         )}
       </dl>
 
-      <ElevationProfile geometry={geometry} units={units} />
+      <ElevationProfile geometry={geometry} units={units} theme={theme} />
       <DirectionsToTrailhead track={track} originPosition={originPosition} units={units} />
       <WeatherForecast track={track} units={units} />
     </div>

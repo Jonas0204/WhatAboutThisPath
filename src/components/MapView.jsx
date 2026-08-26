@@ -13,6 +13,7 @@ import {
   greenifyStyle,
   setupCustomLayers,
 } from '../lib/mapStyle.js'
+import { palette } from '../lib/theme.js'
 
 const EMPTY_COLLECTION = { type: 'FeatureCollection', features: [] }
 // The outdoor/contours/terrain-rgb sources in this style cap out at maxzoom 14
@@ -23,9 +24,58 @@ const EMPTY_COLLECTION = { type: 'FeatureCollection', features: [] }
 // in areas you haven't separately browsed will show blank tiles until online again.
 const PREFETCH_ZOOMS = [8, 10, 12]
 
+// Both POI layers ('pois-dot' circles and the 'pois-lodging' pin) share one
+// click/hover behaviour — they're only separate layers because they render
+// differently.
+const POI_LAYERS = ['pois-dot', 'pois-lodging']
+
 function googleMapsDestinationUrl({ lat, lon, query }) {
   const destination = query ? encodeURIComponent(query) : `${lat},${lon}`
   return `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`
+}
+
+function popupLink(href, text) {
+  const link = document.createElement('a')
+  link.className = 'map-popup__link'
+  link.href = href
+  link.target = '_blank'
+  link.rel = 'noreferrer'
+  link.textContent = text
+  return link
+}
+
+function buildPoiPopupContent(properties, [lon, lat]) {
+  const root = document.createElement('div')
+  root.className = 'map-popup'
+
+  if (properties.kind === 'lodging') {
+    const kind = document.createElement('span')
+    kind.className = 'map-popup__kind'
+    kind.textContent = 'Accommodation'
+    root.appendChild(kind)
+  }
+
+  const title = document.createElement('strong')
+  title.className = 'map-popup__title'
+  title.textContent = properties.name
+  root.appendChild(title)
+
+  if (properties.address) {
+    const address = document.createElement('span')
+    address.className = 'map-popup__meta'
+    address.textContent = properties.address
+    root.appendChild(address)
+  }
+
+  const links = document.createElement('div')
+  links.className = 'map-popup__links'
+  links.appendChild(
+    popupLink(googleMapsDestinationUrl({ lat, lon, query: properties.mapsQuery }), 'Open in Google Maps'),
+  )
+  if (properties.url) links.appendChild(popupLink(properties.url, 'Open website'))
+  root.appendChild(links)
+
+  return root
 }
 
 // Dev-only call counter so a Playwright/console check can confirm a given map
@@ -125,9 +175,13 @@ function MapView(
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right')
 
+    // Dev-only handle, same spirit as countSetData below: lets a console/Playwright
+    // check inspect layers, filters and queried features without a UI detour.
+    if (import.meta.env.DEV) window.__map = map
+
     const onStyleReady = () => {
       greenifyStyle(map, theme)
-      setupCustomLayers(map)
+      setupCustomLayers(map, theme)
 
       map.on('click', 'trailheads-dot', (e) => {
         const id = e.features?.[0]?.properties?.id
@@ -144,38 +198,28 @@ function MapView(
         map.getCanvas().style.cursor = ''
       })
 
-      map.on('click', 'pois-dot', (e) => {
-        const feature = e.features?.[0]
-        if (!feature) return
-        const [lon, lat] = feature.geometry.coordinates
-        const mapsUrl = googleMapsDestinationUrl({
-          lat,
-          lon,
-          query: feature.properties?.mapsQuery,
+      for (const layerId of POI_LAYERS) {
+        map.on('click', layerId, (e) => {
+          const feature = e.features?.[0]
+          if (!feature) return
+          const coordinates = feature.geometry.coordinates
+          poiPopupRef.current?.remove()
+          poiPopupRef.current = new maplibregl.Popup({
+            closeButton: true,
+            offset: feature.properties?.kind === 'lodging' ? 34 : 12,
+            className: 'map-popup-shell',
+          })
+            .setLngLat(coordinates)
+            .setDOMContent(buildPoiPopupContent(feature.properties, coordinates))
+            .addTo(map)
         })
-        const popupContent = document.createElement('div')
-        const title = document.createElement('strong')
-        title.textContent = feature.properties.name
-        popupContent.appendChild(title)
-        popupContent.appendChild(document.createElement('br'))
-        const link = document.createElement('a')
-        link.href = mapsUrl
-        link.target = '_blank'
-        link.rel = 'noreferrer'
-        link.textContent = '🧭 In Google Maps navigieren'
-        popupContent.appendChild(link)
-        poiPopupRef.current?.remove()
-        poiPopupRef.current = new maplibregl.Popup({ closeButton: true, offset: 8 })
-          .setLngLat(feature.geometry.coordinates)
-          .setDOMContent(popupContent)
-          .addTo(map)
-      })
-      map.on('mouseenter', 'pois-dot', () => {
-        map.getCanvas().style.cursor = 'pointer'
-      })
-      map.on('mouseleave', 'pois-dot', () => {
-        map.getCanvas().style.cursor = ''
-      })
+        map.on('mouseenter', layerId, () => {
+          map.getCanvas().style.cursor = 'pointer'
+        })
+        map.on('mouseleave', layerId, () => {
+          map.getCanvas().style.cursor = ''
+        })
+      }
 
       map.on('moveend', () => {
         if (suppressBoundsRef.current) return
@@ -222,7 +266,7 @@ function MapView(
     map.setStyle(styleUrl(theme) ?? 'https://demotiles.maplibre.org/style.json')
     map.once('style.load', () => {
       greenifyStyle(map, theme)
-      setupCustomLayers(map)
+      setupCustomLayers(map, theme)
       setIsReady(true)
     })
   }, [theme])
@@ -240,17 +284,20 @@ function MapView(
     }
   }, [isReady, tracks])
 
+  // Also re-runs on `theme`: swapping the style rebuilds 'trailheads-dot' from
+  // setupCustomLayers, which drops this "the selected one is the accent" override.
   useEffect(() => {
     const map = mapRef.current
     if (!map || !isReady) return
     if (!map.getLayer('trailheads-dot')) return
+    const c = palette(theme)
     map.setPaintProperty('trailheads-dot', 'circle-color', [
       'case',
       ['==', ['get', 'id'], selectedId ?? ''],
-      '#e0574c',
-      '#2f7d4f',
+      c.accent,
+      c.trail,
     ])
-  }, [isReady, selectedId])
+  }, [isReady, selectedId, theme])
 
   useEffect(() => {
     const map = mapRef.current

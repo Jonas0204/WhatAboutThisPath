@@ -1,0 +1,23 @@
+services:
+  web:
+    image: whataboutthispath:local
+    container_name: whatabout
+    # No "ports:" — Traefik reaches the container over the shared network
+    # below, on the container's internal port 80 (see the loadbalancer label).
+    networks:
+      - whatabout
+    restart: unless-stopped
+    labels:
+      traefik.enable: 'true'
+      # Replace with your real subdomain.
+      traefik.http.routers.whatabout.rule: Host(`whatabout.example.com`)
+      # Match these to your Traefik instance's actual entrypoint/certresolver
+      # names (from its static config) — "websecure"/"myresolver" are common
+      # defaults, not guaranteed to match yours.
+      traefik.http.routers.whatabout.entrypoints: websecure
+      traefik.http.routers.whatabout.tls.certresolver: myresolver
+      traefik.http.services.whatabout.loadbalancer.server.port: '80'
+
+networks:
+  whatabout:
+    name: whatabout

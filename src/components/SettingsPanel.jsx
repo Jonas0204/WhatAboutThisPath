@@ -1,8 +1,29 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PRESET_LOCATIONS } from '../lib/presetLocations.js'
 
 export default function SettingsPanel({ settings, update, offlineDownload, locationPicker }) {
   const [open, setOpen] = useState(false)
+  const rootRef = useRef(null)
+
+  // A popover that only closes via its own button is a trap on touch devices —
+  // dismiss it the way every other menu on the platform does.
+  useEffect(() => {
+    if (!open) return
+
+    const onPointerDown = (e) => {
+      if (!rootRef.current?.contains(e.target)) setOpen(false)
+    }
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [open])
 
   const handlePresetChange = (e) => {
     const preset = PRESET_LOCATIONS.find((p) => p.id === e.target.value)
@@ -15,11 +36,12 @@ export default function SettingsPanel({ settings, update, offlineDownload, locat
   }
 
   return (
-    <div className="settings">
+    <div className="settings" ref={rootRef}>
       <button
         className="settings__toggle"
         onClick={() => setOpen((o) => !o)}
         aria-label="Settings"
+        aria-expanded={open}
         title="Settings"
       >
         ⚙

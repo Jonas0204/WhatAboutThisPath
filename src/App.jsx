@@ -77,7 +77,17 @@ function App() {
   return (
     <div className="app-layout">
       <header className="app-topbar">
-        <span className="app-topbar__title">Faroe Islands Hiking Tracks</span>
+        <div className="app-topbar__brand">
+          <span className="app-topbar__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M2 19h20L14.5 6l-4 6.5L8 9z" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="app-topbar__titles">
+            <span className="app-topbar__title">Faroe Islands Hiking Tracks</span>
+            <span className="app-topbar__subtitle">Plan · Navigate · Offline</span>
+          </span>
+        </div>
         <div className="app-topbar__right">
           {!isOnline && <span className="offline-badge">Offline</span>}
           <SettingsPanel
@@ -137,6 +147,7 @@ function App() {
         geometry={geometry}
         units={settings.units}
         originPosition={effectivePosition}
+        theme={resolvedTheme}
       />
     </div>
   )

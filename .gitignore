@@ -141,3 +141,10 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# `docker save` export of the local image (27 MB) — rebuild it with
+# `docker compose build` instead of carrying it in the repo.
+whataboutthispath.tar
+
+# Per-machine Claude Code permissions; launch.json is shared, this isn't.
+.claude/settings.local.json

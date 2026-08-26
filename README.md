@@ -28,7 +28,13 @@ The generated `public/data/` output is committed to git so `npm run dev` works w
 
 ## Points of interest
 
-`divers.gpx` and `sights.gpx` are waypoint-only files (no track line) — practical tips and sights from the second guidebook, 211 points total. They don't fit the track data model (no distance/duration/elevation), so they're a separate layer: toggle "Show points of interest" in Settings to show them on the map (hidden below zoom 10 to avoid cluttering the whole-archipelago overview), click a point for a popup with its name.
+`divers.gpx` and `sights.gpx` are waypoint-only files (no track line) — practical tips and sights from the second guidebook, 211 points total. They don't fit the track data model (no distance/duration/elevation), so they're a separate layer: toggle "Show points of interest" in Settings to show them on the map (dots appear from zoom 9.5, names from zoom 13, to keep the whole-archipelago overview readable), click a point for a popup with its name and a Google Maps route link.
+
+`public/data/poi.json` also takes hand-written entries with `"source": "manual"`. One optional field changes how a point is drawn: `"kind": "lodging"` gives it a house pin that stays visible at every zoom — where you sleep is worth finding on the overview map — instead of joining the dots that fade out below 9.5. Such an entry may also carry `address`, `mapsQuery` (what the Google Maps link routes to, when the coordinates alone would be ambiguous) and `url` (a website link in the popup). The trip's guesthouse, The Nordic Retreat in Tórshavn, is the one entry using all of them.
+
+## Theming
+
+Light and dark, plus a `system` setting that follows the OS live. DOM colors are CSS custom properties in `src/style.css`; the MapLibre layers and the elevation chart are configured from JS and can't read those, so their colors are named roles in `src/lib/theme.js`. See [docs/theming.md](docs/theming.md) for which roles exist in both places and have to move together.
 
 ## Trip duration / difficulty data
 

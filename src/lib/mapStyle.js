@@ -1,3 +1,5 @@
+import { palette } from './theme.js'
+
 const MAPTILER_KEY = import.meta.env.VITE_MAPTILER_KEY
 
 export const FAROE_CENTER = [-6.9, 62.0]
@@ -25,13 +27,29 @@ export function trailheadsGeoJSON(tracks) {
   }
 }
 
+// The imported GPX waypoints are named "#«12» Havnar kirkja" — the numbering is an
+// artifact of the source file's ordering, not something worth putting on the map.
+function poiDisplayName(name) {
+  return String(name ?? '')
+    .replace(/^#?«\d+»\s*/, '')
+    .replace(/^\{\d+\}\s*/, '')
+    .trim()
+}
+
 export function poisGeoJSON(pois) {
   return {
     type: 'FeatureCollection',
     features: (pois ?? []).map((p) => ({
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
-      properties: { id: p.id, name: p.name, mapsQuery: p.mapsQuery ?? null },
+      properties: {
+        id: p.id,
+        name: poiDisplayName(p.name),
+        kind: p.kind ?? 'poi',
+        address: p.address ?? null,
+        mapsQuery: p.mapsQuery ?? null,
+        url: p.url ?? null,
+      },
     })),
   }
 }
@@ -111,7 +129,47 @@ export function greenifyStyle(map, theme) {
   }
 }
 
-export function setupCustomLayers(map) {
+const LODGING_PIN = 'poi-lodging-pin'
+
+// Drawn on a canvas instead of shipped as a sprite/PNG so it stays part of the
+// offline bundle (no extra request) and can be re-added verbatim after a
+// setStyle() theme swap, which wipes the style's images along with its layers.
+function lodgingPinImage(colors, pixelRatio = 2) {
+  const canvas = document.createElement('canvas')
+  canvas.width = 30 * pixelRatio
+  canvas.height = 40 * pixelRatio
+  const ctx = canvas.getContext('2d')
+  ctx.scale(pixelRatio, pixelRatio)
+
+  const pin = new Path2D(
+    'M15 38.5C15 38.5 26.5 24.4 26.5 15A11.5 11.5 0 1 0 3.5 15C3.5 24.4 15 38.5 15 38.5Z',
+  )
+  ctx.save()
+  ctx.shadowColor = 'rgba(15, 23, 42, 0.45)'
+  ctx.shadowBlur = 3
+  ctx.shadowOffsetY = 1
+  ctx.fillStyle = colors.lodging
+  ctx.fill(pin)
+  ctx.restore()
+  ctx.lineWidth = 1.6
+  ctx.strokeStyle = colors.lodgingRing
+  ctx.stroke(pin)
+
+  // Little house glyph — roof, walls, and a door cut out of the same path.
+  ctx.fillStyle = colors.lodgingGlyph
+  ctx.fill(new Path2D('M15 7.8L22.3 14.4H20.4V20.9H16.8V16.7H13.2V20.9H9.6V14.4H7.7Z'))
+
+  return ctx.getImageData(0, 0, canvas.width, canvas.height)
+}
+
+export function setupCustomLayers(map, theme) {
+  // Every color below comes from src/lib/theme.js — see docs/theming.md.
+  const c = palette(theme)
+
+  if (!map.hasImage(LODGING_PIN)) {
+    map.addImage(LODGING_PIN, lodgingPinImage(c, 2), { pixelRatio: 2 })
+  }
+
   if (!map.getSource('trailheads')) {
     map.addSource('trailheads', {
       type: 'geojson',
@@ -123,7 +181,7 @@ export function setupCustomLayers(map) {
       id: 'trailheads-halo',
       type: 'circle',
       source: 'trailheads',
-      paint: { 'circle-radius': 9, 'circle-color': '#ffffff', 'circle-opacity': 0.85 },
+      paint: { 'circle-radius': 9, 'circle-color': c.trailHalo, 'circle-opacity': 0.85 },
     })
   }
   if (!map.getLayer('trailheads-dot')) {
@@ -131,7 +189,7 @@ export function setupCustomLayers(map) {
       id: 'trailheads-dot',
       type: 'circle',
       source: 'trailheads',
-      paint: { 'circle-radius': 5, 'circle-color': '#2f7d4f' },
+      paint: { 'circle-radius': 5, 'circle-color': c.trail },
     })
   }
   if (!map.getLayer('trailheads-label')) {
@@ -147,8 +205,8 @@ export function setupCustomLayers(map) {
         'text-optional': true,
       },
       paint: {
-        'text-color': '#1f2937',
-        'text-halo-color': '#ffffff',
+        'text-color': c.label,
+        'text-halo-color': c.labelHalo,
         'text-halo-width': 1.4,
       },
     })
@@ -165,12 +223,66 @@ export function setupCustomLayers(map) {
       id: 'pois-dot',
       type: 'circle',
       source: 'pois',
-      minzoom: 10, // 211 points would clutter the whole-archipelago overview
+      minzoom: 9.5, // 200+ points would clutter the whole-archipelago overview
+      filter: ['!=', ['get', 'kind'], 'lodging'],
       paint: {
-        'circle-radius': 4,
-        'circle-color': '#8b5cf6',
-        'circle-stroke-color': '#ffffff',
-        'circle-stroke-width': 1,
+        // A 4px dot is hard to hit on a touchscreen and easy to lose against the
+        // hillshade — grow it with zoom and give it a proper contrast ring.
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 9.5, 4.5, 12, 6.5, 15, 9],
+        'circle-color': c.poi,
+        'circle-stroke-color': c.poiRing,
+        'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 9.5, 1.5, 14, 2.5],
+      },
+    })
+  }
+  if (!map.getLayer('pois-label')) {
+    map.addLayer({
+      id: 'pois-label',
+      type: 'symbol',
+      source: 'pois',
+      minzoom: 13,
+      filter: ['!=', ['get', 'kind'], 'lodging'],
+      layout: {
+        'text-field': ['get', 'name'],
+        'text-size': 11,
+        'text-offset': [0, 0.9],
+        'text-anchor': 'top',
+        'text-max-width': 9,
+        'text-optional': true,
+      },
+      paint: {
+        'text-color': c.label,
+        'text-halo-color': c.labelHalo,
+        'text-halo-width': 1.4,
+      },
+    })
+  }
+  // Where you sleep is worth finding at any zoom, so this one keeps its own
+  // always-visible pin instead of joining the dots that fade out below z9.5.
+  if (!map.getLayer('pois-lodging')) {
+    map.addLayer({
+      id: 'pois-lodging',
+      type: 'symbol',
+      source: 'pois',
+      filter: ['==', ['get', 'kind'], 'lodging'],
+      layout: {
+        'icon-image': LODGING_PIN,
+        'icon-anchor': 'bottom',
+        'icon-allow-overlap': true,
+        'icon-ignore-placement': true,
+        'icon-size': ['interpolate', ['linear'], ['zoom'], 7, 0.6, 11, 0.85, 14, 1],
+        'text-field': ['get', 'name'],
+        'text-size': 12,
+        'text-offset': [0, 0.6],
+        'text-anchor': 'top',
+        'text-max-width': 9,
+        'text-optional': true,
+      },
+      paint: {
+        'text-color': c.label,
+        'text-halo-color': c.labelHalo,
+        'text-halo-width': 1.6,
+        'text-opacity': ['interpolate', ['linear'], ['zoom'], 10.5, 0, 11.5, 1],
       },
     })
   }
@@ -187,7 +299,7 @@ export function setupCustomLayers(map) {
         id: 'all-tracks-line',
         type: 'line',
         source: 'all-tracks',
-        paint: { 'line-color': '#2f7d4f', 'line-width': 2, 'line-opacity': 0.65 },
+        paint: { 'line-color': c.trail, 'line-width': 2, 'line-opacity': 0.65 },
       },
       'trailheads-halo',
     )
@@ -205,7 +317,7 @@ export function setupCustomLayers(map) {
       type: 'line',
       source: 'selected-track',
       filter: ['==', ['geometry-type'], 'LineString'],
-      paint: { 'line-color': '#e0574c', 'line-width': 4 },
+      paint: { 'line-color': c.accent, 'line-width': 4 },
     })
   }
   if (!map.getLayer('selected-track-points')) {
@@ -216,8 +328,8 @@ export function setupCustomLayers(map) {
       filter: ['==', ['geometry-type'], 'Point'],
       paint: {
         'circle-radius': 5,
-        'circle-color': '#1c6fd6',
-        'circle-stroke-color': '#fff',
+        'circle-color': c.vertex,
+        'circle-stroke-color': c.trailHalo,
         'circle-stroke-width': 1,
       },
     })

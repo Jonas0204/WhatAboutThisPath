@@ -1477,11 +1477,14 @@
     "source": "it-faeroeer-2023-sights.gpx"
   },
   {
-    "id": "manual-marna-luxus-guesthouse-lynggota-8",
-    "name": "🏡 Unterkunft: Marna Luxus Guesthouse (8 Lynggøta, Tórshavn)",
-    "lat": 62.0189,
-    "lon": -6.7556,
+    "id": "manual-the-nordic-retreat-lynggota-8",
+    "name": "The Nordic Retreat",
+    "kind": "lodging",
+    "address": "Lynggøta 8, 100 Tórshavn",
+    "lat": 62.0152414,
+    "lon": -6.786879,
     "source": "manual",
-    "mapsQuery": "8 Lynggøta, Tórshavn, Faroe Islands"
+    "mapsQuery": "Lynggøta 8, 100 Tórshavn, Faroe Islands",
+    "url": "https://de.annu-hotel.com/fo/the-nordic-retreat-guesthouse-near-park-central-2254.html"
   }
 ]
