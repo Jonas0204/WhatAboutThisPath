@@ -1,12 +1,6 @@
 import { memo } from 'react'
 import { formatDistance, formatShortDistance } from '../lib/units.js'
 
-const difficultyColor = {
-  easy: '#2f9e5e',
-  moderate: '#d69e2e',
-  hard: '#e0574c',
-}
-
 // `track` keeps a stable reference across searches (TrackSidebar's filter/sort never
 // clones track objects), so a plain shallow-prop memo skips re-render for the other
 // 26 cards while typing in the search box. A geolocation tick still recreates every
@@ -20,24 +14,15 @@ function TrackListItem({ track, selected, onSelect, units }) {
         <div className="track-card__row">
           <span className="track-card__title">{track.title}</span>
           {track.difficulty && (
-            <span
-              className="track-card__badge"
-              style={{ background: difficultyColor[track.difficulty] ?? '#6b7280' }}
-            >
+            <span className="track-card__badge" data-difficulty={track.difficulty}>
               {track.difficulty}
             </span>
           )}
         </div>
         <div className="track-card__meta">
-          <span>{formatDistance(track.distanceKm, units)}</span>
-          <span>·</span>
-          <span>{track.durationHours.toFixed(1)} h</span>
-          {track.region && (
-            <>
-              <span>·</span>
-              <span>{track.region}</span>
-            </>
-          )}
+          <span className="track-card__chip">{formatDistance(track.distanceKm, units)}</span>
+          <span className="track-card__chip">{track.durationHours.toFixed(1)} h</span>
+          {track.region && <span className="track-card__chip">{track.region}</span>}
         </div>
         {track.distanceFromUserKm != null && (
           <div className="track-card__distance">

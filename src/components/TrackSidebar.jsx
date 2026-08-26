@@ -40,20 +40,31 @@ export default function TrackSidebar({ tracks, selectedId, onSelect, units, visi
   return (
     <aside className="track-sidebar">
       <div className="track-sidebar__search-wrap">
-        <input
-          className="track-sidebar__search"
-          type="search"
-          placeholder="Search tracks or region…"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button
-          className="track-sidebar__download-all"
-          onClick={handleDownloadAll}
-          disabled={downloadingAll || filtered.length === 0}
-        >
-          {downloadingAll ? 'Preparing…' : `Download all ${filtered.length} as GPX`}
-        </button>
+        <div className="track-sidebar__search-field">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
+          </svg>
+          <input
+            className="track-sidebar__search"
+            type="search"
+            placeholder="Search tracks or region…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+        <div className="track-sidebar__toolbar">
+          <span className="track-sidebar__count">
+            {filtered.length} {filtered.length === 1 ? 'track' : 'tracks'}
+          </span>
+          <button
+            className="track-sidebar__download-all"
+            onClick={handleDownloadAll}
+            disabled={downloadingAll || filtered.length === 0}
+          >
+            {downloadingAll ? 'Preparing…' : 'Download all as GPX'}
+          </button>
+        </div>
       </div>
       {filtered.length === 0 ? (
         <p className="track-sidebar__empty">No tracks in this view — zoom or pan out to see more.</p>
