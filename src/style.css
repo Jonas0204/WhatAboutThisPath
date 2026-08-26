@@ -292,6 +292,18 @@ input[type='checkbox'] {
   background: var(--page-bg);
 }
 
+/* The bottom-sheet wrapper only exists for mobile. Here it hands its children
+   straight back to the grid, so .track-sidebar and .track-detail keep their own
+   columns and nothing about the desktop layout goes through it. */
+.app-sheet {
+  display: contents;
+}
+
+/* Only the mobile sheet has anything to grab. */
+.app-sheet__grip {
+  display: none;
+}
+
 /* Grid/flex children that scroll internally need min-height: 0, otherwise their
    content's natural size can push past the row's intended height instead of
    being clipped/scrolled — the other half of the mobile scroll-glitch fix. */
@@ -672,6 +684,48 @@ input[type='checkbox'] {
   text-align: center;
 }
 
+.track-detail__header {
+  position: sticky;
+  top: calc(var(--detail-pad) * -1);
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin: calc(var(--detail-pad) * -1) calc(var(--detail-pad) * -1) 0;
+  padding: var(--detail-pad) var(--detail-pad) 0.5rem;
+  background: var(--surface);
+}
+
+.track-detail__heading {
+  min-width: 0;
+}
+
+.track-detail__close {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.track-detail__close svg {
+  width: 15px;
+  height: 15px;
+}
+
+.track-detail__close:hover {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
 .track-detail h2 {
   margin: 0 0 0.45rem;
   font-size: 1.15rem;
@@ -684,7 +738,7 @@ input[type='checkbox'] {
 .track-detail__region {
   display: inline-flex;
   align-items: center;
-  margin: 0 0 0.85rem;
+  margin: 0 0 0.35rem;
   padding: 0.15rem 0.55rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
@@ -697,7 +751,7 @@ input[type='checkbox'] {
 }
 
 .track-detail__description {
-  margin: 0;
+  margin: 0.5rem 0 0;
   font-size: 0.87rem;
   line-height: 1.6;
   color: var(--text-secondary);
@@ -1392,40 +1446,103 @@ input[type='checkbox'] {
    Mobile
    --------------------------------------------------------------------------- */
 @media (max-width: 900px) {
+  /* A phone can't usefully show a list, a map and a detail pane at once — the
+     old three-row split gave each about 250px and made all three unreadable.
+     The map now owns the whole area below the topbar, and the list/detail share
+     one sheet the user drags over it. */
   .app-layout {
     grid-template-columns: 1fr;
-    /* Fixed/minmax rows instead of "auto" — auto rows size to content's natural
-       height, which for a scrollable 27-item list is much taller than the
-       intended clipped viewport, and can throw the whole grid's height off. */
-    grid-template-rows: 56px minmax(0, 26vh) minmax(140px, 1fr) minmax(0, auto);
+    grid-template-rows: 56px minmax(0, 1fr);
     grid-template-areas:
       'top'
-      'sidebar'
-      'main'
-      'detail';
+      'main';
   }
 
-  .track-sidebar {
-    max-height: 26vh;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
+  .app-sheet--mobile {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    height: 52dvh; /* mirrors SHEET_SNAP in src/lib/sheetSnap.js */
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    transition: height 240ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .app-sheet--mobile[data-state='peek'] {
+    height: 10dvh;
+  }
+
+  .app-sheet--mobile[data-state='half'] {
+    height: 52dvh;
+  }
+
+  .app-sheet--mobile[data-state='full'] {
+    height: 88dvh;
+  }
+
+  /* The grip sits above the panel, so it has to carry the panel's own surface
+     colour or the sheet reads as two stacked bars. */
+  .app-sheet--mobile[data-view='list'] {
+    background: var(--sidebar-bg);
+  }
+
+  /* Only one of the two is ever the sheet's content. */
+  .app-sheet--mobile[data-view='detail'] .track-sidebar,
+  .app-sheet--mobile[data-view='list'] .track-detail {
+    display: none;
+  }
+
+  .app-sheet__grip {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    /* Slim visually, but a 28px-tall target with no page-pan stealing the drag. */
+    height: 28px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .app-sheet__grip:active {
+    cursor: grabbing;
+  }
+
+  .app-sheet__grip-bar {
+    width: 40px;
+    height: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--border-strong);
+  }
+
+  /* Inside the sheet both panels fill what's left of it and scroll internally,
+     instead of carrying the fixed viewport heights the old rows gave them. */
+  .app-sheet--mobile .track-sidebar,
+  .app-sheet--mobile .track-detail {
+    max-height: none;
+    min-height: 0;
+    flex: 1;
+    border: none;
   }
 
   .track-detail {
     --detail-pad: 1rem;
-    max-height: 34vh;
-    border-left: none;
-    border-top: 1px solid var(--border);
     padding: var(--detail-pad) var(--detail-pad) 1.5rem;
   }
 
-  /* Reclaim map space when nothing is selected instead of reserving 34vh for
-     a single placeholder line. */
-  .track-detail.track-detail--empty {
-    max-height: 3rem;
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1.25rem;
+  /* The map's attribution and controls sit above the collapsed sheet, so they
+     stay reachable in the state where you're actually looking at the map. */
+  .app-layout__main .maplibregl-ctrl-bottom-right,
+  .app-layout__main .maplibregl-ctrl-bottom-left {
+    bottom: calc(10dvh + 4px);
   }
 
   .app-topbar {

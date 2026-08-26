@@ -14,14 +14,20 @@ export default function SettingsPanel({ settings, update, offlineDownload, locat
       if (!rootRef.current?.contains(e.target)) setOpen(false)
     }
     const onKeyDown = (e) => {
-      if (e.key === 'Escape') setOpen(false)
+      if (e.key !== 'Escape') return
+      setOpen(false)
+      // One Escape dismisses one thing. App also clears the selected track on
+      // Escape; marking the event handled stops it doing that behind this panel.
+      e.preventDefault()
     }
 
     document.addEventListener('pointerdown', onPointerDown)
-    document.addEventListener('keydown', onKeyDown)
+    // Capture, so this runs before App's document-level handler regardless of
+    // which mounted first.
+    document.addEventListener('keydown', onKeyDown, true)
     return () => {
       document.removeEventListener('pointerdown', onPointerDown)
-      document.removeEventListener('keydown', onKeyDown)
+      document.removeEventListener('keydown', onKeyDown, true)
     }
   }, [open])
 
