@@ -12,3 +12,10 @@ export function estimateDurationHours({ distanceKm, ascentM, descentM }) {
 
   return Math.max(hours, 0.25)
 }
+
+// DAV guideline estimate:
+// 4 km/h pace, +400 m ascent per hour, +600 m descent per hour.
+export function estimateDavDurationHours({ distanceKm, ascentM, descentM }) {
+  const hours = distanceKm / 4 + ascentM / 400 + descentM / 600
+  return Math.max(hours, 0.25)
+}
