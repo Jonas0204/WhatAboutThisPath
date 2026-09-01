@@ -1,11 +1,14 @@
+import { useState } from 'react'
 import ElevationProfile from './ElevationProfile.jsx'
 import WeatherForecast from './WeatherForecast.jsx'
 import DirectionsToTrailhead from './DirectionsToTrailhead.jsx'
 import { formatDistance, formatElevation } from '../lib/units.js'
 import { buildGpx, downloadGpx } from '../lib/gpxExport.js'
-import { estimateDavDurationHours } from '../lib/estimateDuration.js'
+import { estimateDavDurationHours, estimateDavNetDurationHours } from '../lib/estimateDuration.js'
 
 export default function TrackDetailPanel({ track, geometry, units, originPosition, theme, onClose }) {
+  const [showDavNetDuration, setShowDavNetDuration] = useState(false)
+
   if (!track) {
     return (
       <div className="track-detail track-detail--empty">
@@ -23,6 +26,12 @@ export default function TrackDetailPanel({ track, geometry, units, originPositio
     ascentM: track.ascentM,
     descentM: track.descentM,
   })
+  const davNetDurationHours = estimateDavNetDurationHours({
+    distanceKm: track.distanceKm,
+    ascentM: track.ascentM,
+    descentM: track.descentM,
+  })
+  const shownDavDurationHours = showDavNetDuration ? davNetDurationHours : davDurationHours
 
   return (
     <div className="track-detail">
@@ -67,8 +76,21 @@ export default function TrackDetailPanel({ track, geometry, units, originPositio
           </dd>
         </div>
         <div>
-          <dt>Expected duration (DAV)</dt>
-          <dd>{davDurationHours.toFixed(1)} h</dd>
+          <button
+            type="button"
+            className="track-detail__stats-toggle"
+            onClick={() => setShowDavNetDuration((current) => !current)}
+            aria-pressed={showDavNetDuration}
+            aria-label={
+              showDavNetDuration
+                ? 'Switch DAV duration to standard formula'
+                : 'Switch DAV duration to net formula'
+            }
+          >
+            <dt>{showDavNetDuration ? 'Expected duration (DAV net)' : 'Expected duration (DAV standard)'}</dt>
+            <dd>{shownDavDurationHours.toFixed(1)} h</dd>
+            <span className="track-detail__stats-toggle-hint">Tap to switch formula</span>
+          </button>
         </div>
         {track.difficulty && (
           <div>
