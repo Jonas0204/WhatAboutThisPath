@@ -3,6 +3,7 @@ import WeatherForecast from './WeatherForecast.jsx'
 import DirectionsToTrailhead from './DirectionsToTrailhead.jsx'
 import { formatDistance, formatElevation } from '../lib/units.js'
 import { buildGpx, downloadGpx } from '../lib/gpxExport.js'
+import { estimateDavDurationHours } from '../lib/estimateDuration.js'
 
 export default function TrackDetailPanel({ track, geometry, units, originPosition, theme, onClose }) {
   if (!track) {
@@ -17,6 +18,11 @@ export default function TrackDetailPanel({ track, geometry, units, originPositio
     if (!geometry) return
     downloadGpx(`${track.id}.gpx`, buildGpx([{ name: track.title, geometry }]))
   }
+  const davDurationHours = estimateDavDurationHours({
+    distanceKm: track.distanceKm,
+    ascentM: track.ascentM,
+    descentM: track.descentM,
+  })
 
   return (
     <div className="track-detail">
@@ -59,6 +65,10 @@ export default function TrackDetailPanel({ track, geometry, units, originPositio
           <dd>
             {track.durationHours.toFixed(1)} h{track.isEstimatedDuration ? ' (estimated)' : ''}
           </dd>
+        </div>
+        <div>
+          <dt>Expected duration (DAV)</dt>
+          <dd>{davDurationHours.toFixed(1)} h</dd>
         </div>
         {track.difficulty && (
           <div>
