@@ -19,3 +19,13 @@ export function estimateDavDurationHours({ distanceKm, ascentM, descentM }) {
   const hours = distanceKm / 4 + ascentM / 400 + descentM / 600
   return Math.max(hours, 0.25)
 }
+
+// DAV / DIN 33466 net walking-time estimate:
+// horizontal 4 km/h, ascent 300 hm/h, descent 500 hm/h,
+// then: larger component + half of the smaller component.
+export function estimateDavNetDurationHours({ distanceKm, ascentM, descentM }) {
+  const horizontalHours = distanceKm / 4
+  const verticalHours = ascentM / 300 + descentM / 500
+  const hours = Math.max(horizontalHours, verticalHours) + Math.min(horizontalHours, verticalHours) / 2
+  return Math.max(hours, 0.25)
+}
