@@ -14,8 +14,8 @@
       "lon": -6.602015839889646
     },
     "distanceKm": 14.07,
-    "ascentM": 386,
-    "descentM": 386,
+    "ascentM": 141,
+    "descentM": 141,
     "minEle": 0.18,
     "maxEle": 53.92,
     "waypointCount": 3
@@ -35,8 +35,8 @@
       "lon": -6.584949614480138
     },
     "distanceKm": 8.65,
-    "ascentM": 520,
-    "descentM": 547,
+    "ascentM": 406,
+    "descentM": 434,
     "minEle": -4.15,
     "maxEle": 431.48,
     "waypointCount": 3
@@ -56,8 +56,8 @@
       "lon": -6.58662817440927
     },
     "distanceKm": 10.16,
-    "ascentM": 550,
-    "descentM": 527,
+    "ascentM": 417,
+    "descentM": 393,
     "minEle": -10.52,
     "maxEle": 411.18,
     "waypointCount": 3
@@ -77,8 +77,8 @@
       "lon": -7.006706278771162
     },
     "distanceKm": 3.66,
-    "ascentM": 498,
-    "descentM": 510,
+    "ascentM": 459,
+    "descentM": 472,
     "minEle": 382.08,
     "maxEle": 870.86,
     "waypointCount": 3
@@ -98,8 +98,8 @@
       "lon": -6.854994501918554
     },
     "distanceKm": 9.47,
-    "ascentM": 425,
-    "descentM": 425,
+    "ascentM": 304,
+    "descentM": 304,
     "minEle": 3.79,
     "maxEle": 153.13,
     "waypointCount": 3
@@ -119,8 +119,8 @@
       "lon": -6.814195588231087
     },
     "distanceKm": 7.09,
-    "ascentM": 753,
-    "descentM": 753,
+    "ascentM": 650,
+    "descentM": 650,
     "minEle": 1.64,
     "maxEle": 350.94,
     "waypointCount": 3
@@ -140,8 +140,8 @@
       "lon": -6.998945809900761
     },
     "distanceKm": 16.56,
-    "ascentM": 1022,
-    "descentM": 1053,
+    "ascentM": 924,
+    "descentM": 955,
     "minEle": 2.26171875,
     "maxEle": 548.109375,
     "waypointCount": 7
@@ -161,8 +161,8 @@
       "lon": -6.724645933136344
     },
     "distanceKm": 10.27,
-    "ascentM": 436,
-    "descentM": 437,
+    "ascentM": 194,
+    "descentM": 197,
     "minEle": 1.29,
     "maxEle": 111.41,
     "waypointCount": 5
@@ -182,8 +182,8 @@
       "lon": -7.176860254257917
     },
     "distanceKm": 13.28,
-    "ascentM": 1047,
-    "descentM": 1047,
+    "ascentM": 987,
+    "descentM": 987,
     "minEle": 2.28,
     "maxEle": 525.03,
     "waypointCount": 3
@@ -203,8 +203,8 @@
       "lon": -7.145219743251801
     },
     "distanceKm": 17.96,
-    "ascentM": 911,
-    "descentM": 894,
+    "ascentM": 670,
+    "descentM": 656,
     "minEle": 6.8984375,
     "maxEle": 450.3984375,
     "waypointCount": 7
@@ -224,8 +224,8 @@
       "lon": -6.94370822981
     },
     "distanceKm": 7.61,
-    "ascentM": 635,
-    "descentM": 633,
+    "ascentM": 584,
+    "descentM": 582,
     "minEle": 16.0078125,
     "maxEle": 562.51171875,
     "waypointCount": 3
@@ -245,8 +245,8 @@
       "lon": -6.992800533771515
     },
     "distanceKm": 15.23,
-    "ascentM": 1098,
-    "descentM": 1100,
+    "ascentM": 985,
+    "descentM": 976,
     "minEle": -1.21,
     "maxEle": 626.9,
     "waypointCount": 3
@@ -266,8 +266,8 @@
       "lon": -6.952524902299047
     },
     "distanceKm": 14.57,
-    "ascentM": 746,
-    "descentM": 746,
+    "ascentM": 628,
+    "descentM": 628,
     "minEle": 107.41,
     "maxEle": 503.83,
     "waypointCount": 3
@@ -287,8 +287,8 @@
       "lon": -6.800495199859142
     },
     "distanceKm": 5.09,
-    "ascentM": 191,
-    "descentM": 190,
+    "ascentM": 152,
+    "descentM": 152,
     "minEle": 106.83203125,
     "maxEle": 213.78125,
     "waypointCount": 3
@@ -308,8 +308,8 @@
       "lon": -6.807438265532255
     },
     "distanceKm": 12.72,
-    "ascentM": 642,
-    "descentM": 642,
+    "ascentM": 418,
+    "descentM": 418,
     "minEle": -3.33,
     "maxEle": 246.89,
     "waypointCount": 3
@@ -329,8 +329,8 @@
       "lon": -6.672126771882176
     },
     "distanceKm": 14.86,
-    "ascentM": 534,
-    "descentM": 519,
+    "ascentM": 389,
+    "descentM": 385,
     "minEle": -17.83,
     "maxEle": 226.58,
     "waypointCount": 4
@@ -350,8 +350,8 @@
       "lon": -7.437008209526539
     },
     "distanceKm": 16.25,
-    "ascentM": 741,
-    "descentM": 789,
+    "ascentM": 578,
+    "descentM": 628,
     "minEle": 29.29,
     "maxEle": 588.72,
     "waypointCount": 7
@@ -371,8 +371,8 @@
       "lon": -7.40170824341476
     },
     "distanceKm": 9.28,
-    "ascentM": 1069,
-    "descentM": 1069,
+    "ascentM": 714,
+    "descentM": 714,
     "minEle": 48.78,
     "maxEle": 451.78,
     "waypointCount": 3
@@ -392,8 +392,8 @@
       "lon": -7.151190927252173
     },
     "distanceKm": 5.13,
-    "ascentM": 145,
-    "descentM": 153,
+    "ascentM": 106,
+    "descentM": 110,
     "minEle": -1.04,
     "maxEle": 103.51,
     "waypointCount": 3
@@ -413,8 +413,8 @@
       "lon": -6.878356290981174
     },
     "distanceKm": 7.39,
-    "ascentM": 315,
-    "descentM": 293,
+    "ascentM": 188,
+    "descentM": 196,
     "minEle": -25.38,
     "maxEle": 192.32,
     "waypointCount": 3
@@ -434,8 +434,8 @@
       "lon": -6.820398531854153
     },
     "distanceKm": 10.47,
-    "ascentM": 444,
-    "descentM": 444,
+    "ascentM": 164,
+    "descentM": 164,
     "minEle": 8.95,
     "maxEle": 87.74,
     "waypointCount": 3
@@ -455,8 +455,8 @@
       "lon": -6.718450114130974
     },
     "distanceKm": 16.03,
-    "ascentM": 804,
-    "descentM": 801,
+    "ascentM": 561,
+    "descentM": 559,
     "minEle": -2.93,
     "maxEle": 293.26,
     "waypointCount": 7
@@ -476,8 +476,8 @@
       "lon": -6.928956164047122
     },
     "distanceKm": 10.45,
-    "ascentM": 642,
-    "descentM": 672,
+    "ascentM": 566,
+    "descentM": 598,
     "minEle": -0.62,
     "maxEle": 366.3,
     "waypointCount": 5
@@ -497,8 +497,8 @@
       "lon": -6.935481308028102
     },
     "distanceKm": 5.42,
-    "ascentM": 403,
-    "descentM": 359,
+    "ascentM": 367,
+    "descentM": 325,
     "minEle": -1.84,
     "maxEle": 364.56,
     "waypointCount": 3
@@ -518,8 +518,8 @@
       "lon": -6.807213127613068
     },
     "distanceKm": 7.74,
-    "ascentM": 458,
-    "descentM": 433,
+    "ascentM": 296,
+    "descentM": 304,
     "minEle": -17.88,
     "maxEle": 211.18,
     "waypointCount": 3
@@ -539,8 +539,8 @@
       "lon": -6.806963682174683
     },
     "distanceKm": 7.78,
-    "ascentM": 271,
-    "descentM": 281,
+    "ascentM": 136,
+    "descentM": 145,
     "minEle": -2.61,
     "maxEle": 62.72,
     "waypointCount": 3
@@ -560,8 +560,8 @@
       "lon": -6.86584671959281
     },
     "distanceKm": 16.89,
-    "ascentM": 969,
-    "descentM": 1015,
+    "ascentM": 758,
+    "descentM": 791,
     "minEle": 0.89,
     "maxEle": 381.18,
     "waypointCount": 7

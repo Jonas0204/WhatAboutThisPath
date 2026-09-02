@@ -4,6 +4,21 @@ function lineStringFeatures(geojson) {
   return geojson.features.filter((f) => f.geometry?.type === 'LineString')
 }
 
+const ELEVATION_SMOOTHING_WINDOW = 10
+
+function smoothElevations(values, radius = ELEVATION_SMOOTHING_WINDOW) {
+  if (values.length <= 2 || radius <= 0) return values
+  const smoothed = []
+  for (let i = 0; i < values.length; i++) {
+    const start = Math.max(0, i - radius)
+    const end = Math.min(values.length, i + radius + 1)
+    let sum = 0
+    for (let j = start; j < end; j++) sum += values[j]
+    smoothed.push(sum / (end - start))
+  }
+  return smoothed
+}
+
 export function computeDistanceKm(geojson) {
   const lines = lineStringFeatures(geojson)
   return lines.reduce((sum, f) => sum + turfLength(f, { units: 'kilometers' }), 0)
@@ -18,19 +33,20 @@ export function computeElevation(geojson) {
 
   for (const line of lines) {
     const coords = line.geometry.coordinates
+    const elevations = []
     for (let i = 0; i < coords.length; i++) {
       const ele = coords[i][2]
       if (typeof ele !== 'number') continue
+      elevations.push(ele)
       if (ele < minEle) minEle = ele
       if (ele > maxEle) maxEle = ele
-      if (i > 0) {
-        const prevEle = coords[i - 1][2]
-        if (typeof prevEle === 'number') {
-          const delta = ele - prevEle
-          if (delta > 0) ascentM += delta
-          else descentM += -delta
-        }
-      }
+    }
+
+    const smoothed = smoothElevations(elevations)
+    for (let i = 1; i < smoothed.length; i++) {
+      const delta = smoothed[i] - smoothed[i - 1]
+      if (delta > 0) ascentM += delta
+      else descentM += -delta
     }
   }
 
