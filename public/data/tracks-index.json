@@ -670,5 +670,26 @@
     "minEle": 0,
     "maxEle": 0,
     "waypointCount": 0
+  },
+  {
+    "id": "tj-rnuvik-mylingur",
+    "displayName": "Tjørnuvík - Mýlingur",
+    "sourceFile": "Tjørnuvík__Mýlingur.gpx",
+    "bounds": {
+      "minLat": 62.27295,
+      "maxLat": 62.28941,
+      "minLon": -7.2251,
+      "maxLon": -7.14669
+    },
+    "startPoint": {
+      "lat": 62.28888,
+      "lon": -7.14677
+    },
+    "distanceKm": 11.04,
+    "ascentM": 727,
+    "descentM": 727,
+    "minEle": 7.12,
+    "maxEle": 638.33,
+    "waypointCount": 0
   }
 ]

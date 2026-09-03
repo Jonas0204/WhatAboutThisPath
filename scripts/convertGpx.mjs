@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { DOMParser } from '@xmldom/xmldom'
@@ -29,6 +29,7 @@ const trackSources = [
     // -> "Wanderung 1").
     displayNameFromGpx: true,
   },
+  { dir: 'uploaded-gpx' },
 ]
 
 const poiSources = [
@@ -65,11 +66,24 @@ function readXml(path) {
   return xml.charCodeAt(0) === 0xfeff ? xml.slice(1) : xml
 }
 
+function readManualPois() {
+  const poiPath = join(outDir, 'poi.json')
+  if (!existsSync(poiPath)) return []
+  try {
+    const parsed = JSON.parse(readFileSync(poiPath, 'utf-8'))
+    if (!Array.isArray(parsed)) return []
+    return parsed.filter((poi) => poi?.source === 'manual')
+  } catch {
+    return []
+  }
+}
+
 const index = []
 let totalFiles = 0
 
 for (const source of trackSources) {
   const dirPath = join(rootDir, source.dir)
+  if (!existsSync(dirPath)) continue
   const files = readdirSync(dirPath)
     .filter((f) => f.toLowerCase().endsWith('.gpx'))
     .filter((f) => !source.exclude?.includes(f))
@@ -104,14 +118,16 @@ for (const source of trackSources) {
 }
 
 index.sort((a, b) => a.sourceFile.localeCompare(b.sourceFile))
-writeFileSync(join(outDir, 'tracks-index.json'), JSON.stringify(index, null, 2))
+writeFileSync(join(outDir, 'tracks-index.json'), `${JSON.stringify(index, null, 2)}\n`)
 
 console.log(`Converted ${totalFiles} GPX files -> ${tracksOutDir}`)
 console.log(`Wrote index of ${index.length} tracks -> ${join(outDir, 'tracks-index.json')}`)
 
 // Points of interest (sights, practical tips) — waypoint-only GPX files, no track
 // line, so they don't fit the track data model above. Flattened into one list.
+const manualPois = readManualPois()
 const pois = []
+let generatedPoiCount = 0
 for (const relPath of poiSources) {
   const doc = new DOMParser().parseFromString(readXml(join(rootDir, relPath)), 'text/xml')
   const geojson = gpx(doc)
@@ -119,13 +135,15 @@ for (const relPath of poiSources) {
     if (feature.geometry?.type !== 'Point') continue
     const [lon, lat] = feature.geometry.coordinates
     pois.push({
-      id: `${slugify(relPath)}-${pois.length}`,
+      id: `${slugify(relPath)}-${generatedPoiCount}`,
       name: feature.properties?.name ?? 'Unnamed',
       lat,
       lon,
       source: relPath.split('/').pop(),
     })
+    generatedPoiCount += 1
   }
 }
-writeFileSync(join(outDir, 'poi.json'), JSON.stringify(pois, null, 2))
+pois.push(...manualPois)
+writeFileSync(join(outDir, 'poi.json'), `${JSON.stringify(pois, null, 2)}\n`)
 console.log(`Wrote ${pois.length} points of interest -> ${join(outDir, 'poi.json')}`)
