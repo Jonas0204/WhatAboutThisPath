@@ -15,16 +15,17 @@ Two separate guidebook GPX collections feed the track list:
 
 - `Faeroeer-GPS-Tracks-1/` — 27 tracks, one file per hike, descriptive filenames.
 - `it-faeroeer-2023-gesamt_gpx/` — a second book's collection: 5 more hikes (generic filenames like `tramps_1.gpx`; a cleaner display name is pulled from each GPX's own `<trk><name>` instead) plus two non-hike waypoint files (`divers.gpx`, `sights.gpx` — practical tips and sights, 211 points total, see "Points of interest" below).
+- `uploaded-gpx/` — optional folder for your own additional GPX tracks (one file per track).
 
 `scripts/convertGpx.mjs` reads both, checks for geographic duplicates between them (bounding-box overlap + start-point distance — since neither collection has internal duplicates, but the two together might), and writes `public/data/` (`tracks-index.json` + one `.geojson` per track + `poi.json`). One duplicate was found and is explicitly excluded: `it-faeroeer-2023-tramps_3.gpx` (99% bbox overlap + ~20m start-point match with `04-wanderung-slaettaratindur-cs` — the same Slættaratindur summit hike, just recorded one-way). Three other partial overlaps (`tramps_1`, `tramps_2`, `tramps_4` — 36-94% bbox overlap with existing tracks, but different total distances) were kept as separate tracks since a different distance suggests a different route variant rather than a true duplicate — re-run the geographic comparison yourself if you add more GPX files and want to check for overlaps.
 
 Re-run the script only if the source GPX files change:
 
 ```
-node scripts/convertGpx.mjs
+npm run gpx:convert
 ```
 
-The generated `public/data/` output is committed to git so `npm run dev` works without a build step.
+The generated `public/data/` output is committed to git so `npm run dev` works without a build step. The deploy workflow also runs `npm run gpx:convert` before build, so newly added GPX files are included on GitHub Pages automatically.
 
 ## Points of interest
 
